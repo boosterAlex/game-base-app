@@ -1,42 +1,37 @@
 import { useApi } from "shared/hooks"
 
-interface Games {
+interface GameBasicInfo {
     id: number
     name: string,
-    image: string,
+    background_image: string,
 }
 type GameService = {
-    getGamesList: () => Promise<Games[]>
+    getGamesList: () => Promise<GameBasicInfo[]>
+    setStatusLoad: Function
+    statusLoad: string
 }
 
 const useGameServices = (): GameService => {
 
-    const { request } = useApi();
-
-    const apiBase = 'https://api.rawg.io/api/'
-    const apiKey = 'bf5ca4a4fc534f4aac45a2673dfe64c5'
+    const { request, statusLoad, setStatusLoad } = useApi();
 
     const getGamesList = async () => {
         const res = await request(
-            `${apiBase}games?key=${apiKey}`
+            `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
 
-        return res.results.map((games: {
-            id: number
-            name: string,
-            background_image: string,
-        }) => {
+        return res.results.map((games: GameBasicInfo) => {
 
             return {
                 id: games.id,
                 name: games.name,
-                image: games.background_image
+                background_image: games.background_image
             }
         })
 
     }
 
-    return { getGamesList }
+    return { getGamesList, statusLoad, setStatusLoad }
 }
 
 export default useGameServices

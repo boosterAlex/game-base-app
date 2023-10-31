@@ -1,6 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 const useApi = () => {
+
+    const [statusLoad, setStatusLoad] = useState('waiting')
 
     const request = useCallback(
         async (
@@ -9,6 +11,8 @@ const useApi = () => {
             body = null,
             headers = { 'Content-type': 'application/json' }
         ) => {
+            setStatusLoad('loading')
+
             try {
                 const response = await fetch(url, { method, body, headers })
 
@@ -22,12 +26,13 @@ const useApi = () => {
 
                 return data
             } catch (e) {
+                setStatusLoad('error')
                 throw e
             }
 
         }, [])
 
-    return { request }
+    return { request, statusLoad, setStatusLoad }
 }
 
 export default useApi

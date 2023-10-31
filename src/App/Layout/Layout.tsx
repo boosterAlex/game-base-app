@@ -1,6 +1,8 @@
 import { Link, Outlet } from 'react-router-dom'
+import { Suspense } from 'react'
 
-import { SearchPanel } from 'shared/ui/SearchPanel'
+import { SearchPanel, NavBar } from 'shared/ui'
+import { Spinner } from 'shared/ui'
 
 const Layout = () => {
     return (
@@ -9,8 +11,13 @@ const Layout = () => {
                 <Link to="/">Home</Link>
                 <Link to="/game/:id">Game</Link>
                 <SearchPanel />
+                <NavBar />
             </header>
-            <Outlet />
+            <main>
+                <Suspense fallback={<Spinner />}>
+                    <Outlet />
+                </Suspense>
+            </main>
             <footer>2023</footer>
         </>
     )
