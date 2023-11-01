@@ -1,0 +1,1 @@
+export { default as ListOfGamesByParams } from './ListOfGamesByParams'

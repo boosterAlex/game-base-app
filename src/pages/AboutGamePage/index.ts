@@ -1,0 +1,1 @@
+export { default as AboutGamePage } from './AboutGamePage'

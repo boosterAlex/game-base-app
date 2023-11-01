@@ -7,6 +7,7 @@ interface GameBasicInfo {
 }
 type GameService = {
     getGamesList: () => Promise<GameBasicInfo[]>
+    getGameById: (id: number) => Promise<GameBasicInfo[]>
     setStatusLoad: Function
     statusLoad: string
 }
@@ -20,18 +21,26 @@ const useGameServices = (): GameService => {
             `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
 
-        return res.results.map((games: GameBasicInfo) => {
+        return res.results.map((game: GameBasicInfo) => {
 
             return {
-                id: games.id,
-                name: games.name,
-                background_image: games.background_image
+                id: game.id,
+                name: game.name,
+                background_image: game.background_image
             }
         })
 
     }
 
-    return { getGamesList, statusLoad, setStatusLoad }
+    const getGameById = async (id: number) => {
+        const res = await request(
+            `${process.env.REACT_APP_API_BASE}games/${id}?key=${process.env.REACT_APP_API_KEY}`
+        )
+
+        return res.data.results
+    }
+
+    return { getGamesList, getGameById, statusLoad, setStatusLoad }
 }
 
 export default useGameServices

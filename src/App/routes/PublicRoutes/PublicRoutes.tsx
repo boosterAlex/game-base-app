@@ -4,9 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from 'shared/consts'
 import { Layout } from 'App/Layout';
 
-const HomePage = lazy(() => import('pages').then(({ HomePage }) => ({ default: HomePage })))
-const AboutGame = lazy(() => import('pages').then(({ AboutGame }) => ({ default: AboutGame })))
-const NotfoundPage = lazy(() => import('pages').then(({ NotfoundPage }) => ({ default: NotfoundPage })))
+const ListOfGamesByParams = lazy(() => import('pages').then(({ ListOfGamesByParams }) => ({ default: ListOfGamesByParams })))
+const AboutGamePage = lazy(() => import('pages').then(({ AboutGamePage }) => ({ default: AboutGamePage })))
+const Page404 = lazy(() => import('pages').then(({ Page404 }) => ({ default: Page404 })))
 
 
 
@@ -16,10 +16,10 @@ function PublicRoutes() {
         <>
             <Routes>
                 <Route path={ROUTES.MAIN} element={<Layout />}>
-                    <Route path={ROUTES.MAIN} element={<HomePage />} />
-                    <Route path={ROUTES.GAME} element={<AboutGame />} />
-                    <Route path='*' element={<NotfoundPage />} />
+                    <Route path={ROUTES.MAIN} element={<ListOfGamesByParams />} />
+                    <Route path={ROUTES.GAME} element={<AboutGamePage />} />
                 </Route>
+                <Route path='*' element={<Page404 />} />
             </Routes>
         </>
     );

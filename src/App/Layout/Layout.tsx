@@ -9,7 +9,6 @@ const Layout = () => {
         <>
             <header>
                 <Link to="/">Home</Link>
-                <Link to="/game/:id">Game</Link>
                 <SearchPanel />
                 <NavBar />
             </header>

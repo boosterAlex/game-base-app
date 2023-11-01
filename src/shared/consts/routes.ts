@@ -1,4 +1,4 @@
 export const ROUTES = {
     MAIN: '/',
-    GAME: '/game/:id'
+    GAME: '/games/:gameId'
 }

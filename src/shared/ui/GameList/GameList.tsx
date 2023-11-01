@@ -1,29 +1,23 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { API } from 'services';
-import { Spinner } from 'shared/ui';
+import { setContent } from 'utils';
 
-import './HomePage.scss'
+import './GameList.scss'
+
 interface GameBasicInfo {
     id: number
     name: string
     background_image: string
 }
 
-const setContent = (status: string, Component: () => JSX.Element) => {
-    switch (status) {
-        case 'waiting':
-            return <Spinner />
-        case 'loading':
-            return <Spinner />
-        case 'confirmed':
-            return <Component />
-        default:
-            throw new Error('Unexpected status state')
-    }
+interface GameListProps {
+    onGameSelected: (id: number) => void
+
 }
 
-const HomePage = () => {
+const GameList = ({ onGameSelected }: GameListProps) => {
     const [gamesList, setGamesList] = useState<GameBasicInfo[]>([]);
 
 
@@ -43,12 +37,21 @@ const HomePage = () => {
     const renderGame = (arr: GameBasicInfo[]) => {
         const games = arr.map((item: GameBasicInfo) => {
             return (
-                <li className='game__item'
+
+                <li
+                    className='game__item'
                     key={item.id}>
                     <img style={{ objectFit: 'contain', width: '500px' }} src={item.background_image} alt={item.name} />
-                    <div>{item.name}</div>
+                    <Link
+                        style={{ textDecoration: 'none' }}
+                        onClick={() => onGameSelected(item.id)}
+                        to={`/games/${item.id}`}>
+                        <h2>{item.name}</h2>
+                    </Link>
+
 
                 </li>
+
             );
         })
         return (
@@ -69,6 +72,4 @@ const HomePage = () => {
 }
 
 
-export default HomePage;
-
-
+export default GameList;

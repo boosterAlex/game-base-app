@@ -1,3 +1,3 @@
-export { AboutGame } from './AboutGame'
-export { HomePage } from './HomePage'
-export { NotfoundPage } from './NotfoundPage'
+export { ListOfGamesByParams } from './ListOfGamesByParams'
+export { AboutGamePage } from './AboutGamePage'
+export { Page404 } from './NotfoundPage'
