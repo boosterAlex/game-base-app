@@ -10,13 +10,17 @@ const Layout = () => {
             <header>
                 <Link to="/">Home</Link>
                 <SearchPanel />
-                <NavBar />
             </header>
-            <main>
-                <Suspense fallback={<Spinner />}>
-                    <Outlet />
-                </Suspense>
-            </main>
+            <div style={{ display: 'flex' }}>
+                <aside style={{ flexBasis: "15%" }}>
+                    <NavBar />
+                </aside>
+                <main style={{ flexBasis: "85%" }}>
+                    <Suspense fallback={<Spinner />}>
+                        <Outlet />
+                    </Suspense>
+                </main>
+            </div>
             <footer>2023</footer>
         </>
     )

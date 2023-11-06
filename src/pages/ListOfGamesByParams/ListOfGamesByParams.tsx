@@ -10,8 +10,8 @@ const ListOfGamesByParams = () => {
     }
 
     return (
-
         <GameList onGameSelected={onGameSelected} />
+        // <CardItem  title = {title}/>
     )
 }
 

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 
 import { API } from 'services';
 import { setContent } from 'utils';
+import { ROUTES } from 'shared/consts'
 
 import './GameList.scss'
 
-interface GameBasicInfo {
+interface GamesListInfo {
     id: number
     name: string
     background_image: string
@@ -18,7 +19,7 @@ interface GameListProps {
 }
 
 const GameList = ({ onGameSelected }: GameListProps) => {
-    const [gamesList, setGamesList] = useState<GameBasicInfo[]>([]);
+    const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
 
 
     useEffect(() => {
@@ -34,8 +35,8 @@ const GameList = ({ onGameSelected }: GameListProps) => {
             .then(() => setStatusLoad('confirmed'));
     };
 
-    const renderGame = (arr: GameBasicInfo[]) => {
-        const games = arr.map((item: GameBasicInfo) => {
+    const renderGame = (arr: GamesListInfo[]) => {
+        const games = arr.map((item: GamesListInfo) => {
             return (
 
                 <li
@@ -45,11 +46,10 @@ const GameList = ({ onGameSelected }: GameListProps) => {
                     <Link
                         style={{ textDecoration: 'none' }}
                         onClick={() => onGameSelected(item.id)}
-                        to={`/games/${item.id}`}>
+                        to={(generatePath(ROUTES.GAME, { gameId: String(item.id) }))}
+                    >
                         <h2>{item.name}</h2>
                     </Link>
-
-
                 </li>
 
             );

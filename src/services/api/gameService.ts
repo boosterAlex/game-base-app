@@ -1,13 +1,21 @@
 import { useApi } from "shared/hooks"
 
-interface GameBasicInfo {
+interface GamesListInfo {
     id: number
     name: string,
     background_image: string,
 }
+
+interface GameBasicInfo {
+    id: number | string | undefined
+    name: string,
+    background_image: string,
+    description_raw: string
+}
+
 type GameService = {
-    getGamesList: () => Promise<GameBasicInfo[]>
-    getGameById: (id: number) => Promise<GameBasicInfo[]>
+    getGamesList: () => Promise<GamesListInfo[]>
+    getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     setStatusLoad: Function
     statusLoad: string
 }
@@ -21,7 +29,7 @@ const useGameServices = (): GameService => {
             `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
 
-        return res.results.map((game: GameBasicInfo) => {
+        return res.results.map((game: GamesListInfo) => {
 
             return {
                 id: game.id,
@@ -32,12 +40,12 @@ const useGameServices = (): GameService => {
 
     }
 
-    const getGameById = async (id: number) => {
+    const getGameById = async (id: number | string | undefined) => {
         const res = await request(
             `${process.env.REACT_APP_API_BASE}games/${id}?key=${process.env.REACT_APP_API_KEY}`
         )
 
-        return res.data.results
+        return res
     }
 
     return { getGamesList, getGameById, statusLoad, setStatusLoad }
