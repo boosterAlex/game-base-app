@@ -2,7 +2,9 @@ import { PublicRoutes } from "./routes";
 
 function App() {
   return (
-    <PublicRoutes />
+    <div className="app">
+      <PublicRoutes />
+    </div>
   );
 }
 

@@ -6,6 +6,11 @@ interface GamesListInfo {
     background_image: string,
 }
 
+interface Screenshots {
+    id: number
+    image: string
+}
+
 interface GameBasicInfo {
     id: number | string | undefined
     name: string,
@@ -13,9 +18,11 @@ interface GameBasicInfo {
     description_raw: string
 }
 
+
 type GameService = {
     getGamesList: () => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
+    getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
     setStatusLoad: Function
     statusLoad: string
 }
@@ -30,7 +37,6 @@ const useGameServices = (): GameService => {
         );
 
         return res.results.map((game: GamesListInfo) => {
-
             return {
                 id: game.id,
                 name: game.name,
@@ -48,7 +54,19 @@ const useGameServices = (): GameService => {
         return res
     }
 
-    return { getGamesList, getGameById, statusLoad, setStatusLoad }
+    const getScreenshotsById = async (id: number | string | undefined) => {
+        const res = await request(
+            `${process.env.REACT_APP_API_BASE}games/${id}/screenshots?key=${process.env.REACT_APP_API_KEY}`
+        )
+        return res.results.map((screenshots: Screenshots) => {
+            return {
+                id: screenshots.id,
+                image: screenshots.image
+            }
+        })
+    }
+
+    return { getGamesList, getGameById, statusLoad, setStatusLoad, getScreenshotsById }
 }
 
 export default useGameServices

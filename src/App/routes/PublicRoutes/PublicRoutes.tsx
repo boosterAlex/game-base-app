@@ -5,7 +5,7 @@ import { ROUTES } from 'shared/consts'
 import { Layout } from 'App/Layout';
 
 const ListOfGamesByParams = lazy(() => import('pages').then(({ ListOfGamesByParams }) => ({ default: ListOfGamesByParams })))
-const AboutGamePage = lazy(() => import('pages').then(({ AboutGamePage }) => ({ default: AboutGamePage })))
+const AboutGame = lazy(() => import('pages').then(({ AboutGame }) => ({ default: AboutGame })))
 const Page404 = lazy(() => import('pages').then(({ Page404 }) => ({ default: Page404 })))
 
 
@@ -17,7 +17,7 @@ function PublicRoutes() {
             <Routes>
                 <Route path={ROUTES.MAIN} element={<Layout />}>
                     <Route path={ROUTES.MAIN} element={<ListOfGamesByParams />} />
-                    <Route path={ROUTES.GAME} element={<AboutGamePage />} />
+                    <Route path={ROUTES.GAME} element={<AboutGame />} />
                 </Route>
                 <Route path='*' element={<Page404 />} />
             </Routes>
