@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from "react"
-import { CardItem } from "shared/ui"
+import { useState, useEffect } from "react"
+import { CardItem, Spinner } from "shared/ui"
 
 import './ListOfGamesByParams.scss'
 
 import { API } from 'services';
-import { setContent } from 'utils';
 interface GamesListInfo {
     id: number
     name: string
@@ -15,33 +14,20 @@ const ListOfGamesByParams = () => {
 
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
 
-    const { getGamesList, statusLoad, setStatusLoad } = API.gameService();
+    const { getGamesList } = API.gameService();
 
     useEffect(() => {
-        onGamesLoaded();
+        getGamesList()
+            .then((games) => setGamesList(games))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function onGamesLoaded() {
-        getGamesList()
-            .then((games) => setGamesList(games))
-            .then(() => setStatusLoad('confirmed'));
-    };
-
-    const renderGame = (arr: GamesListInfo[]) => {
-        const games = arr.map((item: GamesListInfo) => (
-            <CardItem id={item.id} background_image={item.background_image} name={item.name} />
-        ))
-        return <ul className='game__grid'>{games}</ul>
-    }
-
-    const elements = useMemo(() => {
-        return setContent(statusLoad, () => renderGame(gamesList))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statusLoad])
-
     return (
-        <div className='game__content'>{elements}</div>
+        <div className='game__content'>
+            {gamesList.length ? (gamesList.map((game) =>
+                <CardItem id={game.id} background_image={game.background_image} name={game.name} />)
+            ) : <Spinner />}
+        </div>
     )
 
 }

@@ -23,13 +23,12 @@ type GameService = {
     getGamesList: () => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
-    setStatusLoad: Function
-    statusLoad: string
+
 }
 
 const useGameServices = (): GameService => {
 
-    const { request, statusLoad, setStatusLoad } = useApi();
+    const { request } = useApi();
 
     const getGamesList = async () => {
         const res = await request(
@@ -66,7 +65,7 @@ const useGameServices = (): GameService => {
         })
     }
 
-    return { getGamesList, getGameById, statusLoad, setStatusLoad, getScreenshotsById }
+    return { getGamesList, getGameById, getScreenshotsById }
 }
 
 export default useGameServices
