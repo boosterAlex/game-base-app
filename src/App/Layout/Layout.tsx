@@ -1,8 +1,9 @@
 import { Link, Outlet } from 'react-router-dom'
 import { Suspense } from 'react'
 
-import { SearchPanel, NavBar } from 'shared/ui'
+import { SearchPanel } from 'shared/ui'
 import { Spinner } from 'shared/ui'
+import { Sidebar } from 'widgets'
 
 const Layout = () => {
     return (
@@ -13,7 +14,7 @@ const Layout = () => {
             </header>
             <div style={{ display: 'flex' }}>
                 <aside style={{ flexBasis: "15%" }}>
-                    <NavBar />
+                    <Sidebar />
                 </aside>
                 <main style={{ flexBasis: "85%" }}>
                     <Suspense fallback={<Spinner />}>

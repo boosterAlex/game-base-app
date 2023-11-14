@@ -4,6 +4,7 @@ interface GamesListInfo {
     id: number
     name: string,
     background_image: string,
+    short_screenshots: []
 }
 
 interface Screenshots {
@@ -32,14 +33,16 @@ const useGameServices = (): GameService => {
 
     const getGamesList = async () => {
         const res = await request(
-            `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
+            `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
+            // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
 
         return res.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
                 name: game.name,
-                background_image: game.background_image
+                background_image: game.background_image,
+                short_screenshots: game.short_screenshots
             }
         })
 

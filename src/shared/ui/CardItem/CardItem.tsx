@@ -9,14 +9,13 @@ interface Props {
     id: number,
     background_image: string,
     name: string
+    short_screenshots: []
 }
 
-const CardItem = ({ id, background_image, name }: Props) => {
-
-    console.log(id, name)
+const CardItem = ({ id, background_image, name, short_screenshots }: Props) => {
     return (
         <div className='card__item'>
-            <Slider id={id} background_image={background_image} />
+            <Slider background_image={background_image} short_screenshots={short_screenshots} />
             <Link
                 to={(generatePath(ROUTES.GAME, { gameId: String(id) }))}
             >

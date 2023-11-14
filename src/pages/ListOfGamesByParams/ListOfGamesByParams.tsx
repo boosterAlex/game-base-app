@@ -8,6 +8,7 @@ interface GamesListInfo {
     id: number
     name: string
     background_image: string
+    short_screenshots: []
 }
 
 const ListOfGamesByParams = () => {
@@ -25,7 +26,7 @@ const ListOfGamesByParams = () => {
     return (
         <div className='game__content'>
             {gamesList.length ? (gamesList.map((game) =>
-                <CardItem id={game.id} background_image={game.background_image} name={game.name} />)
+                <CardItem id={game.id} background_image={game.background_image} name={game.name} short_screenshots={game.short_screenshots} />)
             ) : <Spinner />}
         </div>
     )

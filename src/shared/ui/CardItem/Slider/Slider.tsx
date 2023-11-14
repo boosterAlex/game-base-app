@@ -1,65 +1,72 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Slider.scss";
-import { API } from "services";
 
 interface Props {
-    id: number
     background_image: string
+    short_screenshots: []
 }
 
 interface Screenshots {
     id: number
     image: string
 }
-const Slider = ({ id, background_image }: Props) => {
+const Slider = ({ background_image, short_screenshots }: Props) => {
     const [activeImage, setActiveImage] = useState<string>("");
     const [screenshotsList, setScreenshotsList] = useState<Screenshots[]>([])
-    const [progressWidth, setProgressWidth] = useState<number>(0);
+    const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+    const [isCardActive, setIsCardActive] = useState<Boolean>(false)
 
-    const { getScreenshotsById } = API.gameService();
 
-
-    const handleMouseEnter = (src: string): void => {
+    const handleMouseEnter = useCallback((src: string, index: number): void => {
         setActiveImage(src)
-    };
-
-    const handleMouseMove = (index: number): void => {
-        const width = ((index + 1) / screenshotsList.length) * 100;
-        setProgressWidth(width);
-    };
-
+        setActiveSlideIndex(index)
+    }, []);
 
     useEffect(() => {
-        getScreenshotsById(id)
-            .then(screenshots => setScreenshotsList(screenshots))
+        setScreenshotsList(short_screenshots)
         setActiveImage(() => background_image)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    // console.log(screenshotsList)
+
+    const renderGameCardInfo = () => {
+        return (
+            <>
+                <div className="slider__dots-row">
+                    {screenshotsList.map((image: Screenshots, index: number) => (
+                        <div
+                            className="slider__dots-item"
+                            onMouseEnter={() =>
+                                handleMouseEnter(image.image, index)} >
+                            <img src={image.image} alt='some' />
+                        </div>
+                    ))}
+                </div>
+                <div className="slider__dots-row">
+                    {screenshotsList.map((_: Screenshots, index: number) => (
+                        <span
+                            className={`slider__dot${activeSlideIndex === index ? " active" : ""}`}
+                            key={index}
+                        ></span>
+                    ))}
+                </div>
+            </>
+
+        )
+    }
+
 
     return (
         <div className="slider"
             onMouseLeave={() => {
                 setActiveImage(() => background_image)
-                setProgressWidth(() => 0)
+                setActiveSlideIndex(0)
+                setIsCardActive(false)
             }}>
-            <div className="image__container">
+            <div className="image__container" onMouseMove={() => (setIsCardActive(true))}>
                 <img src={activeImage} alt={background_image} />
-                <div className="progress-bar" style={{ width: `${progressWidth}%` }}></div>
                 <div className="slider__dots">
-                    {screenshotsList.map((image: Screenshots, index: number) => (
-                        <div
-                            className="slider__dots-item"
-                            key={image.id}
-                            data-src={image.image}
-                            onMouseEnter={() => {
-                                handleMouseEnter(image.image)
-                                handleMouseMove(index)
-                            }
-                            }>
-                        </div>
-                    ))}
+                    {isCardActive && renderGameCardInfo()}
                 </div>
             </div>
         </div>);

@@ -15,26 +15,37 @@
         position: absolute;
         width: 100%;
         bottom: 15px;
+        flex-direction: column;
         justify-content: center;
         &-item{
-            background-color: #5a5757;
-            border-radius: 5px;
+            display: flex;
             width: 45px;
             height: 200px;
             margin: 0 3px;
-            opacity: 0;
+            opacity: 1;
         }
+          .slider__dots-row {
+            background-color: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0px; 
+            opacity: 0.4;
+          }
     }
-    .progress-bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 5px;
-      background-color: red;
+    .slider__dot {
       width: 100%;
-      transition: width 0.3s ease-in-out;
+      height: 4px;
+      box-sizing: border-box;
+      border-radius: 3.8px;
+      background-color: gray;
+      margin: 0 3px;
+      transition: all .3s;
     }
-  }
+    
+    .slider__dot.active {
+      background-color: rgb(255, 255, 255);
+    }
   
 .image__container {
     position: relative;
@@ -49,4 +60,4 @@ img {
     height: 100%;
     object-fit: cover;
   }
-  
+}

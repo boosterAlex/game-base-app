@@ -1,5 +1,4 @@
 import { Description, ScreenshotList } from "pages/AboutGame"
-import { Slider } from "shared/ui/CardItem/Slider"
 
 const AboutGame = () => {
 
@@ -8,7 +7,6 @@ const AboutGame = () => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Description />
             <ScreenshotList />
-            {/* <Slider /> */}
         </div>
     )
 }
