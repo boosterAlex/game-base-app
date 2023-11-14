@@ -29,9 +29,35 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
     }, [])
 
 
+    // const renderGameCardInfo = () => {
+    //     return (
+    //         <>
+    //             {screenshotsList.map((image: Screenshots, index: number) => (
+
+    //                 <div className="slider__dots">
+    //                     <div className="slider__dots-row">
+    //                         <div
+    //                             className="slider__dots-item"
+    //                             onMouseEnter={() =>
+    //                                 handleMouseEnter(image.image, index)} >
+    //                             <img src={image.image} alt='some' />
+    //                         </div>
+    //                     </div>
+    //                     <div className="slider__dots-progress">
+    //                         <span
+    //                             className={`slider__dot${activeSlideIndex === index ? " active" : ""}`}
+    //                             key={index}
+    //                         ></span>
+    //                     </div>
+    //                 </div>
+    //             ))}
+    //         </>
+
+    //     )
+    // }
     const renderGameCardInfo = () => {
         return (
-            <>
+            <div className="slider__dots">
                 <div className="slider__dots-row">
                     {screenshotsList.map((image: Screenshots, index: number) => (
                         <div
@@ -42,7 +68,7 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
                         </div>
                     ))}
                 </div>
-                <div className="slider__dots-row">
+                <div className="slider__dots-progress">
                     {screenshotsList.map((_: Screenshots, index: number) => (
                         <span
                             className={`slider__dot${activeSlideIndex === index ? " active" : ""}`}
@@ -50,11 +76,10 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
                         ></span>
                     ))}
                 </div>
-            </>
+            </div>
 
         )
     }
-
 
     return (
         <div className="slider"
@@ -65,11 +90,10 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
             }}>
             <div className="image__container" onMouseMove={() => (setIsCardActive(true))}>
                 <img src={activeImage} alt={background_image} />
-                <div className="slider__dots">
-                    {isCardActive && renderGameCardInfo()}
-                </div>
+                {isCardActive && renderGameCardInfo()}
             </div>
-        </div>);
+        </div>
+    );
 };
 
 export default Slider;
