@@ -1,15 +1,54 @@
-.card__item {
+.card_item {
+    background-color: rgb(37, 37, 37);
     display: flex;
     flex-direction: column;
-    align-items: center;
     border-radius: 10px;
     overflow: hidden;
     width: 300px;
-    height: 250px;
-    margin: 15px;
-    box-shadow: 5px 5px 10px rgba(209, 201, 201, 0.25);
+    height: 100%;
+}
+.card_img{
+    width: 300px;
+    height: 190px;
+}
+.general_info{
+    width: 300px;
+    background-color: unset;
+    bottom: -15px;
+    padding: 10px 0 10px 10px;
+}
+.extended_info{
+    background-color: rgb(37, 37, 37);   
+    padding: 0 0 20px 10px;
+    display: none;
+    position: absolute;
+    bottom: -160px;
+    z-index: 100;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    width: 300px;
+    height: 150px;
 
 }
-.card__item:hover {
-    transform: scale(1.1);
+.wrapper_card:hover {
+    .extended_info{
+        display: flex;
+        transform: scale(1.05);
+    }
+    .card_item{
+        transform: scale(1.05);
+        border-radius: 10px 10px 0 0;
+    }
+    .buttons__card-wishlist{
+        display: flex;
+    }
+    .buttons__card-more{
+        display: flex;
+    }
+}
+
+.wrapper_card {
+    color: white;
+    position: relative;
+    margin: 15px;
 }

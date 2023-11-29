@@ -9,6 +9,10 @@ interface GamesListInfo {
     name: string
     background_image: string
     short_screenshots: []
+    ratings_count: number
+    parent_platforms: []
+    released: string
+    genres: []
 }
 
 const ListOfGamesByParams = () => {
@@ -26,7 +30,17 @@ const ListOfGamesByParams = () => {
     return (
         <div className='game__content'>
             {gamesList.length ? (gamesList.map((game) =>
-                <CardItem id={game.id} background_image={game.background_image} name={game.name} short_screenshots={game.short_screenshots} />)
+                <CardItem
+                    id={game.id}
+                    background_image={game.background_image}
+                    name={game.name}
+                    short_screenshots={game.short_screenshots}
+                    ratings_count={game.ratings_count}
+                    parent_platforms={game.parent_platforms}
+                    released={game.released}
+                    genres={game.genres}
+
+                />)
             ) : <Spinner />}
         </div>
     )

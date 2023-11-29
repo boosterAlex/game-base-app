@@ -1,0 +1,120 @@
+.header{
+    font-size: 24px;
+    line-height: 28px;
+    padding: 5px 0;
+}
+
+.buttons__card{
+    display: flex;
+    &-rating{
+        transition: all .3s;
+        display: flex;
+        background-color: rgb(59, 59, 59);   
+        border: none;
+        border-radius: 4px;
+        align-items: center;
+        min-width: 34px;
+        min-height: 24px;
+        color: #fff;  
+        padding: 0 8px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    &-wishlist{
+        align-items: end;
+        min-width: 34px;
+        min-height: 24px;
+        transition: all .3s;
+        display: none;
+        width: 30px;
+        height: 25px;
+        border: none;
+        background-color: rgb(59, 59, 59);   
+        border-radius: 4px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    &-more{
+        align-items: self-end;
+        justify-content: center;
+        min-width: 34px;
+        min-height: 24px;
+        transition: all .3s;
+        display: none;
+        width: 30px;
+        height: 25px;
+        border: none;
+        color: #fff;  
+        font-size: 30px;
+        background-color: rgb(59, 59, 59);   
+        border-radius: 4px;
+        margin-right: 5px;
+        cursor: pointer;
+
+    }
+}
+
+.buttons__card-rating:hover{
+    .rating-img g{
+        fill: black;
+    }
+    background-color: #fff;
+    color: black
+
+}
+.buttons__card-wishlist:hover{
+    .wishlist-img path{
+        fill: black;
+    }
+    background-color: #fff;
+    color: black
+
+}
+
+.buttons__card-more:hover{
+    background-color: #fff;
+    color: black
+}
+
+.rating-img{
+    width: 13px;
+    height: 13px;
+}
+.wishlist-img{
+    width: 100%;
+}
+.rating{
+    padding-left: 8px;
+}
+
+.platforms{
+    display: flex;
+}
+.pc{
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    background-image: url('../../../../assets/icons/win.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+}
+
+.playstation{
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    background-image: url('../../../../assets/icons/ps.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+}
+
+.xbox {
+    width: 16px;
+    height: 20px;
+    background-image: url('../../../../assets/icons/xbox2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

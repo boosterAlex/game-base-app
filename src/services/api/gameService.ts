@@ -5,6 +5,10 @@ interface GamesListInfo {
     name: string,
     background_image: string,
     short_screenshots: []
+    ratings_count: number
+    parent_platforms: []
+    released: string
+    genres: []
 }
 
 interface Screenshots {
@@ -36,13 +40,17 @@ const useGameServices = (): GameService => {
             `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
             // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
-
+        console.log(res.results)
         return res.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
                 name: game.name,
                 background_image: game.background_image,
-                short_screenshots: game.short_screenshots
+                short_screenshots: game.short_screenshots,
+                ratings_count: game.ratings_count,
+                parent_platforms: game.parent_platforms,
+                released: game.released,
+                genres: game.genres
             }
         })
 

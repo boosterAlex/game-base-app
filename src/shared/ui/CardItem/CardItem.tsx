@@ -1,7 +1,6 @@
-import { Link, generatePath } from 'react-router-dom';
+import { Slider } from './Slider';
+import { General, Extended } from './Info';
 
-import { ROUTES } from 'shared/consts'
-import { Slider } from 'shared/ui/CardItem/Slider';
 
 import './CardItem.scss'
 
@@ -10,17 +9,35 @@ interface Props {
     background_image: string,
     name: string
     short_screenshots: []
+    ratings_count: number
+    parent_platforms: []
+    released: string
+    genres: []
 }
 
-const CardItem = ({ id, background_image, name, short_screenshots }: Props) => {
+const CardItem = ({ id, background_image, name, short_screenshots, ratings_count, parent_platforms, released, genres }: Props) => {
     return (
-        <div className='card__item'>
-            <Slider background_image={background_image} short_screenshots={short_screenshots} />
-            <Link
-                to={(generatePath(ROUTES.GAME, { gameId: String(id) }))}
-            >
-                {name}
-            </Link>
+        <div className='wrapper_card'>
+            <div className='card_item'>
+                <div className='card_img'>
+                    <Slider
+                        background_image={background_image}
+                        short_screenshots={short_screenshots} />
+                </div>
+                <div className='general_info'>
+                    <General
+                        id={id}
+                        name={name}
+                        ratings_count={ratings_count}
+                        parent_platforms={parent_platforms} />
+                </div>
+            </div>
+            <div className='extended_info'>
+                <Extended
+                    released={released}
+                    genres={genres}
+                />
+            </div>
         </div>
     )
 }

@@ -69,10 +69,12 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
                     ))}
                 </div>
                 <div className="slider__dots-progress">
-                    {screenshotsList.map((_: Screenshots, index: number) => (
+                    {screenshotsList.map((image: Screenshots, index: number) => (
                         <span
                             className={`slider__dot${activeSlideIndex === index ? " active" : ""}`}
                             key={index}
+                            onMouseEnter={() =>
+                                handleMouseEnter(image.image, index)}
                         ></span>
                     ))}
                 </div>
