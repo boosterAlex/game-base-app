@@ -1,0 +1,62 @@
+.about-wrapper{
+    margin: 5px auto;
+    width: 270px;
+}
+
+.about-game{
+    font-size: 14px;
+    &-list{
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 5px 0 ;
+        border-bottom: 1px solid hsla(0,0%,100%,.07);
+        &_term{
+            display: flex;
+            color: hsla(0,0%,100%,.4);
+            flex: 0 0 auto;
+            align-items:center;
+        }
+        &_link{
+            text-decoration: underline;
+            transition: .3s;
+        }
+    }
+}
+
+.about-game-list_link:hover{
+    text-decoration: underline;
+    color: hsla(0,0%,100%,.4);
+}
+
+.show-more-button{
+    position: relative;
+    cursor: pointer;
+    background-color: hsla(0,0%,100%,.07);
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 16px 0;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    transition: color .3s;
+    &_title{
+        line-height: 14px;
+    }
+    &_icon{
+        background-image: url('../../../../assets/icons/rightarrow.svg');
+        opacity: .3;
+        width: 20px;
+        height: 18px;
+        background-size: contain;
+        background-position: 100%;
+        background-repeat: no-repeat;
+        margin-left: 6px;
+    }
+}
+.show-more-button:hover{
+    color: rgba(244, 244, 127, 0.788)
+}

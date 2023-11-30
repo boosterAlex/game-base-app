@@ -12,22 +12,20 @@
     height: 190px;
 }
 .general_info{
-    width: 300px;
+    margin: 15px auto;
+    width: 270px;
     background-color: unset;
-    bottom: -15px;
-    padding: 10px 0 10px 10px;
 }
 .extended_info{
-    background-color: rgb(37, 37, 37);   
-    padding: 0 0 20px 10px;
+    background-color: rgb(37, 37, 37);
     display: none;
     position: absolute;
-    bottom: -160px;
+    bottom: -185px;
     z-index: 100;
     border-radius: 0 0 10px 10px;
     overflow: hidden;
     width: 300px;
-    height: 150px;
+    height: 185px;
 
 }
 .wrapper_card:hover {

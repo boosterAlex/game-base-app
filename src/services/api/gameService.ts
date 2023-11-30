@@ -40,7 +40,6 @@ const useGameServices = (): GameService => {
             `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
             // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
         );
-        console.log(res.results)
         return res.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
