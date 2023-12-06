@@ -22,7 +22,6 @@ const Layout = () => {
                     </Suspense>
                 </main>
             </div>
-            <footer>2023</footer>
         </>
     )
 }

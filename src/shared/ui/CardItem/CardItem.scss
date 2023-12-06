@@ -1,52 +1,47 @@
-.card_item {
-    background-color: rgb(37, 37, 37);
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 300px;
-    height: 100%;
+.wrapper-card {
+    position: relative;
+    margin: 0 15px 200px 15px;
+    height: auto;
+    width: auto;
+    &_img{
+        transition: 0.3s;
+        background-color: rgb(37, 37, 37);
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+        height: auto;
+    }
+    &-general-info{
+        transition: transform 0.3s;
+        position: absolute;
+        padding: 15px ;
+        margin-top: 10px;
+        width: 300px;
+        top: 190px;
+        z-index: 9999999999;
+        height: auto;
+        background-color: rgb(37, 37, 37);
+        border-radius: 0 0 10px 10px;
+    }
 }
-.card_img{
-    width: 300px;
-    height: 190px;
-}
-.general_info{
-    margin: 15px auto;
-    width: 270px;
-    background-color: unset;
-}
-.extended_info{
-    background-color: rgb(37, 37, 37);
-    display: none;
-    position: absolute;
-    bottom: -185px;
-    z-index: 100;
-    border-radius: 0 0 10px 10px;
-    overflow: hidden;
-    width: 300px;
-    height: 185px;
 
-}
-.wrapper_card:hover {
-    .extended_info{
-        display: flex;
+.wrapper-card:hover {
+    .wrapper-card-general-info {
+        height: auto;
         transform: scale(1.05);
     }
-    .card_item{
+
+    .wrapper-card_img{
         transform: scale(1.05);
         border-radius: 10px 10px 0 0;
     }
+
     .buttons__card-wishlist{
         display: flex;
     }
     .buttons__card-more{
         display: flex;
     }
-}
-
-.wrapper_card {
-    color: white;
-    position: relative;
-    margin: 15px;
+    .about-wrapper{
+        display:contents;
+    }
 }

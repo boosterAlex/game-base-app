@@ -25,9 +25,10 @@ interface GameBasicInfo {
 
 
 type GameService = {
-    getGamesList: () => Promise<GamesListInfo[]>
+    getGamesList: (url: string) => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
+    getGamesListNextPage: (url: string) => Promise<string>
 
 }
 
@@ -35,10 +36,11 @@ const useGameServices = (): GameService => {
 
     const { request } = useApi();
 
-    const getGamesList = async () => {
+    const getGamesList = async (url: string) => {
         const res = await request(
-            `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
-            // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}`
+            // `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
+            // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=1&page_size=21`
+            `${url}`
         );
         return res.results.map((game: GamesListInfo) => {
             return {
@@ -54,6 +56,13 @@ const useGameServices = (): GameService => {
         })
 
     }
+    const getGamesListNextPage = async (url: string) => {
+        let res = await request(
+            `${url}`
+        )
+        return res.next
+    }
+
 
     const getGameById = async (id: number | string | undefined) => {
         const res = await request(
@@ -75,7 +84,7 @@ const useGameServices = (): GameService => {
         })
     }
 
-    return { getGamesList, getGameById, getScreenshotsById }
+    return { getGamesList, getGamesListNextPage, getGameById, getScreenshotsById }
 }
 
 export default useGameServices

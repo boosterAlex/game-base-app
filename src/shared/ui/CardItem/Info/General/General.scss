@@ -3,10 +3,14 @@
     font-size: 24px;
     line-height: 28px;
     padding: 5px 0;
+    a {
+        transition: all .3s;
+    }
 }
 
 .buttons__card{
     display: flex;
+    margin-bottom: 10px;
     &-rating{
         transition: all .3s;
         display: flex;
@@ -55,6 +59,10 @@
     }
 }
 
+.header a:hover{
+    color: hsla(0,0%,100%,.4);
+}
+
 .buttons__card-rating:hover{
     .rating-img{
         filter: invert(100%);
@@ -79,7 +87,6 @@
 
 .rating-img{
     background-image:url('../../../../assets/icons/plus_icon.svg');
-    // background-image:url('src/shared/assets/icons/plus_icon.svg');
     background-repeat: no-repeat;
     width: 13px;
     height: 13px;
@@ -95,34 +102,32 @@
     padding-left: 8px;
 }
 
-.platforms{
+.about-game-platforms{
     display: flex;
-}
-.pc{
-    margin-right: 5px;
-    width: 20px;
-    height: 20px;
-    background-image: url('../../../../assets/icons/win.png');
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-size: contain;
-}
-
-.playstation{
-    margin-right: 5px;
-    width: 20px;
-    height: 20px;
-    background-image: url('../../../../assets/icons/ps.png');
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-size: contain;
-}
-
-.xbox {
-    width: 16px;
-    height: 20px;
-    background-image: url('../../../../assets/icons/xbox2.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    &_icon{
+        margin-right: 5px;
+        width: 18px;
+        height: 18px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-size: contain;
+    }
+    .pc{
+        background-image: url('../../../../assets/icons/win.png');
+    }
+    .playstation{
+        background-image: url('../../../../assets/icons/ps.png');
+    }
+    .xbox {
+        width: 15px;
+        background-image: url('../../../../assets/icons/xbox2.png');
+    }
+    .mac {
+        width: 16px;
+        background-image: url('../../../../assets/icons/apple-logo-svgrepo-com.svg');
+    }
+    .linux {
+        width: 16px;
+        background-image: url('../../../../assets/icons/linux-svgrepo-com.svg');
+    }
 }

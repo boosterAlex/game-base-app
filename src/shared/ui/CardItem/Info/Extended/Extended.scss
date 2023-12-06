@@ -1,6 +1,7 @@
 .about-wrapper{
     margin: 5px auto;
     width: 270px;
+    display: none;
 }
 
 .about-game{
@@ -11,6 +12,9 @@
         align-items: baseline;
         padding: 5px 0 ;
         border-bottom: 1px solid hsla(0,0%,100%,.07);
+        &_descr {
+            text-align: right;
+        }
         &_term{
             display: flex;
             color: hsla(0,0%,100%,.4);
