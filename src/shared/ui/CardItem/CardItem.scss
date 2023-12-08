@@ -1,6 +1,6 @@
 .wrapper-card {
     position: relative;
-    margin: 0 15px 200px 15px;
+    margin: 0 15px 180px 15px;
     height: auto;
     width: auto;
     &_img{
@@ -17,7 +17,7 @@
         margin-top: 10px;
         width: 300px;
         top: 190px;
-        z-index: 9999999999;
+        z-index: 2;
         height: auto;
         background-color: rgb(37, 37, 37);
         border-radius: 0 0 10px 10px;

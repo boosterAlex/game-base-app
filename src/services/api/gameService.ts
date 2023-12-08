@@ -25,23 +25,23 @@ interface GameBasicInfo {
 
 
 type GameService = {
-    getGamesList: (url: string) => Promise<GamesListInfo[]>
+    getGamesList: (currentPage: number) => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
-    getGamesListNextPage: (url: string) => Promise<string>
+    getGamesSearchList: any
 
 }
+
 
 const useGameServices = (): GameService => {
 
     const { request } = useApi();
 
-    const getGamesList = async (url: string) => {
+    const getGamesList = async (currentPage: number) => {
         const res = await request(
-            // `https://api.rawg.io/api/games/lists/main?discover=true&key=c542e67aec3a4340908f9de9e86038af&ordering=-relevance&page=1&page_size=21`
-            // `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=1&page_size=21`
-            `${url}`
+            `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`
         );
+
         return res.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
@@ -56,13 +56,6 @@ const useGameServices = (): GameService => {
         })
 
     }
-    const getGamesListNextPage = async (url: string) => {
-        let res = await request(
-            `${url}`
-        )
-        return res.next
-    }
-
 
     const getGameById = async (id: number | string | undefined) => {
         const res = await request(
@@ -83,8 +76,21 @@ const useGameServices = (): GameService => {
             }
         })
     }
+    const getGamesSearchList = async (searchedString: string) => {
+        const res = await request(
+            `${process.env.REACT_APP_API_BASE}games?page_size=20&search=${searchedString}&page=1&key=${process.env.REACT_APP_API_KEY}`
+        )
+        return res.results.map((game: GamesListInfo) => {
+            return {
+                id: game.id,
+                name: game.name,
+                background_image: game.background_image,
+                parent_platforms: game.parent_platforms,
+            }
+        })
+    }
 
-    return { getGamesList, getGamesListNextPage, getGameById, getScreenshotsById }
+    return { getGamesList, getGameById, getScreenshotsById, getGamesSearchList }
 }
 
 export default useGameServices

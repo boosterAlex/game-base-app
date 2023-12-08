@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom'
 import { Suspense } from 'react'
 
-import { SearchPanel } from 'shared/ui'
+import { SearchPanel } from 'pages/SearchPanel'
 import { Spinner } from 'shared/ui'
 import { Sidebar } from 'widgets'
 

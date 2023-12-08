@@ -18,34 +18,28 @@ interface GamesListInfo {
 
 const ListOfGamesByParams = () => {
 
-    const [currentPage, setCurrentPage] = useState(2)
+    const [currentPage, setCurrentPage] = useState(1)
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
-    const [gameListUrl, setGamesListUrl] = useState(`${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=1&page_size=21`)
 
-    const { getGamesList, getGamesListNextPage } = API.gameService();
+    const { getGamesList } = API.gameService();
 
     const getGamesListMore = () => {
         setCurrentPage((prev => prev + 1))
-        setGamesListUrl(`${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`)
     }
 
-    // useEffect(() => {
-    //     getGamesListNextPage(gameListUrl).then((data) => setGamesListUrl(data))
-    // }, [gamesList])
-
     useEffect(() => {
-        getGamesList(gameListUrl).then((games) => setGamesList([...gamesList, ...games]))
+        getGamesList(currentPage)
+            .then((games) => setGamesList([...gamesList, ...games]))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
 
-    // useEffect(() => {
-    //     getGamesList(gameListUrl)
-    //         .then((games) => setGamesList(games))
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     return (
-        // <InfiniteScroll dataLength={gamesList.length} next={getGamesListMore} hasMore={true} loader={<Spinner />}>
-        <div className='game__content'>
+        <InfiniteScroll
+            className="game__content"
+            dataLength={gamesList.length}
+            next={getGamesListMore}
+            hasMore={true}
+            loader={<Spinner />}>
             {(gamesList.map((game) =>
                 <CardItem
                     id={game.id}
@@ -59,9 +53,7 @@ const ListOfGamesByParams = () => {
 
                 />)
             )}
-            {(gamesList.length > 0) ? <button onClick={getGamesListMore}>SHOW MORE</button> : null}
-        </div>
-        // </InfiniteScroll>
+        </InfiniteScroll>
     )
 
 }

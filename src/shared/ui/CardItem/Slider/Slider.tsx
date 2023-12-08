@@ -28,33 +28,6 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-
-    // const renderGameCardInfo = () => {
-    //     return (
-    //         <>
-    //             {screenshotsList.map((image: Screenshots, index: number) => (
-
-    //                 <div className="slider__dots">
-    //                     <div className="slider__dots-row">
-    //                         <div
-    //                             className="slider__dots-item"
-    //                             onMouseEnter={() =>
-    //                                 handleMouseEnter(image.image, index)} >
-    //                             <img src={image.image} alt='some' />
-    //                         </div>
-    //                     </div>
-    //                     <div className="slider__dots-progress">
-    //                         <span
-    //                             className={`slider__dot${activeSlideIndex === index ? " active" : ""}`}
-    //                             key={index}
-    //                         ></span>
-    //                     </div>
-    //                 </div>
-    //             ))}
-    //         </>
-
-    //     )
-    // }
     const renderGameCardInfo = () => {
         return (
             <div className="slider__dots">

@@ -113,14 +113,15 @@
         background-size: contain;
     }
     .pc{
-        background-image: url('../../../../assets/icons/win.png');
+        width: 15px;
+        background-image: url('../../../../assets/icons/windows-174-svgrepo-com.svg');
     }
     .playstation{
-        background-image: url('../../../../assets/icons/ps.png');
+        background-image: url('../../../../assets/icons/play-station-logo-svgrepo-com.svg');
     }
     .xbox {
         width: 15px;
-        background-image: url('../../../../assets/icons/xbox2.png');
+        background-image: url('../../../../assets/icons/xbox-svgrepo-com.svg');
     }
     .mac {
         width: 16px;
@@ -129,5 +130,13 @@
     .linux {
         width: 16px;
         background-image: url('../../../../assets/icons/linux-svgrepo-com.svg');
+    }
+    .android {
+        width: 16px;
+        background-image: url('../../../../assets/icons/android-droid-material-svgrepo-com.svg');
+    }
+    .ios{
+        width: 15px;
+        background-image: url('../../../../assets/icons/tablet-ios-svgrepo-com.svg');
     }
 }
