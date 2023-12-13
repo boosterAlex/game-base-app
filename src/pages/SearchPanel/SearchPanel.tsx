@@ -35,10 +35,6 @@ const SearchPanel = () => {
     const handleInput = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue((e.target.value).trim())
         setIsResultVisible(true)
-        if (inputValue) {
-            setGamesList([]);
-            setIsResultVisible(false)
-        }
     }, 500)
 
     useEffect(() => {
@@ -55,7 +51,7 @@ const SearchPanel = () => {
             getGamesSearchList(inputValue)
                 .then((games: any) => setGamesList(games))
                 .finally(() => setIsLoading(false))
-        }
+        } else hideSearchBox()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputValue])
 
