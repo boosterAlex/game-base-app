@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 
-import './SearchPanel.scss'
-import { SearchResult } from 'shared/ui';
-import { API } from 'services'
 
+import './SearchPanel.scss'
+import { SearchResult, Spinner } from 'shared/ui';
+import { API } from 'services'
 
 interface GamesListInfo {
     id: number
@@ -18,25 +18,44 @@ const SearchPanel = () => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
-    const [displayOn, setDisplayOn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isResultVisible, setIsResultVisible] = useState(false);
 
     const { getGamesSearchList } = API.gameService()
 
-    const displayStyle = { display: displayOn ? 'inherit' : 'none' };
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const hideSearchBox = debounce(() => {
-        setDisplayOn(false)
+    const hideSearchBox = () => {
         setInputValue('')
         inputRef.current && (inputRef.current.value = '')
-    }, 100)
+        setGamesList([])
+        setIsResultVisible(false);
+    };
 
-    const inputRef = useRef<HTMLInputElement>(null);
     const handleInput = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue((e.target.value).trim())
-    }, 400)
+        setIsResultVisible(true)
+        if (inputValue) {
+            setGamesList([]);
+            setIsResultVisible(false)
+        }
+    }, 500)
 
     useEffect(() => {
-        inputValue && getGamesSearchList(inputValue).then((games: any) => setGamesList(games))
+        document.addEventListener('click', hideSearchBox)
+        return (() => {
+            document.removeEventListener('click', hideSearchBox)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        if (inputValue) {
+            setIsLoading(true);
+            getGamesSearchList(inputValue)
+                .then((games: any) => setGamesList(games))
+                .finally(() => setIsLoading(false))
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputValue])
 
@@ -44,8 +63,6 @@ const SearchPanel = () => {
         <div>
             <form className='search-form'>
                 <input
-                    onFocus={() => setDisplayOn(true)}
-                    onBlur={hideSearchBox}
                     type="text"
                     placeholder="Искать здесь..."
                     className='search-form_input'
@@ -53,16 +70,25 @@ const SearchPanel = () => {
                     ref={inputRef} />
                 <button
                     type="submit"
-                    className='search-form_button'></button>
+                    className='search-form_button'>
+                </button>
             </form>
-            <div className='search-form-result' style={displayStyle}>
-                {inputValue && gamesList.map((game) =>
-                    <SearchResult
-                        name={game.name}
-                        background_image={game.background_image}
-                        id={game.id}
-                    />)}
-            </div>
+            {isResultVisible &&
+                <div
+                    className='search-form-result'
+                >
+                    {isLoading ?
+                        <Spinner /> :
+                        (inputValue && gamesList.map((game) =>
+                            <SearchResult
+                                key={game.id}
+                                name={game.name}
+                                background_image={game.background_image}
+                                id={game.id}
+                            />
+                        ))}
+                </div>}
+
         </div>
 
     )
