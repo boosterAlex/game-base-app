@@ -1,12 +1,10 @@
 .search-form-result{
-
-    height: 50%;
-}
-
-.search-form-result-item-name{
-    width: 100%;
-    &_link{
+    opacity: 90%;
+    min-height: 250px;
+    padding: 5px;
+    &-item-name{
         width: 100%;
+            &_link{
+            width: 100%;
     }
-}
-
+}}

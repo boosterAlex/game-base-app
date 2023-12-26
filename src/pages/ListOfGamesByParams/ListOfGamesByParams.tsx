@@ -39,7 +39,8 @@ const ListOfGamesByParams = () => {
             dataLength={gamesList.length}
             next={getGamesListMore}
             hasMore={true}
-            loader={<Spinner />}>
+            loader={<Spinner />}
+        >
             {(gamesList.map((game) =>
                 <CardItem
                     id={game.id}

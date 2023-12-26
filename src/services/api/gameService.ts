@@ -23,13 +23,17 @@ interface GameBasicInfo {
     description_raw: string
 }
 
+interface GamesResponse {
+    count: number
+    games: GamesListInfo[]
+}
+
 
 type GameService = {
     getGamesList: (currentPage: number) => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
-    getGamesSearchList: any
-
+    getGamesSearchInfo: (searchedString: string) => Promise<GamesResponse>
 }
 
 
@@ -61,7 +65,6 @@ const useGameServices = (): GameService => {
         const res = await request(
             `${process.env.REACT_APP_API_BASE}games/${id}?key=${process.env.REACT_APP_API_KEY}`
         )
-
         return res
     }
 
@@ -76,21 +79,26 @@ const useGameServices = (): GameService => {
             }
         })
     }
-    const getGamesSearchList = async (searchedString: string) => {
+    const getGamesSearchInfo = async (searchedString: string) => {
         const res = await request(
             `${process.env.REACT_APP_API_BASE}games?page_size=20&search=${searchedString}&page=1&key=${process.env.REACT_APP_API_KEY}`
         )
-        return res.results.map((game: GamesListInfo) => {
-            return {
-                id: game.id,
-                name: game.name,
-                background_image: game.background_image,
-                parent_platforms: game.parent_platforms,
-            }
-        })
+        const resObj = {
+            count: res.count,
+            games: res.results.map((game: GamesListInfo) => {
+                return {
+                    id: game.id,
+                    name: game.name,
+                    background_image: game.background_image,
+                    parent_platforms: game.parent_platforms,
+                }
+            })
+
+        }
+        return resObj
     }
 
-    return { getGamesList, getGameById, getScreenshotsById, getGamesSearchList }
+    return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo }
 }
 
 export default useGameServices
