@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 
@@ -5,6 +6,7 @@ import { debounce } from 'lodash'
 import './SearchPanel.scss'
 import { SearchResult, Spinner } from 'shared/ui';
 import { API } from 'services'
+
 
 interface GamesListInfo {
     id: number
@@ -15,9 +17,8 @@ interface GamesListInfo {
 
 interface GamesResponse {
     count: number;
-    games: GamesListInfo[];
+    list: GamesListInfo[];
 }
-
 
 const SearchPanel = () => {
 
@@ -26,6 +27,7 @@ const SearchPanel = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isResultVisible, setIsResultVisible] = useState(false);
     const [countGames, setCountGames] = useState(0);
+    const [isFocus, setIsFocus] = useState(false)
 
     const { getGamesSearchInfo } = API.gameService()
 
@@ -61,7 +63,7 @@ const SearchPanel = () => {
             setIsLoading(true);
             getGamesSearchInfo(inputValue)
                 .then((games: GamesResponse) => {
-                    setGamesList(games.games)
+                    setGamesList(games.list)
                     setCountGames(games.count)
                 })
                 .finally(() => setIsLoading(false))
@@ -69,10 +71,14 @@ const SearchPanel = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputValue])
 
+    console.log('render')
+
     return (
         <div>
             <form className='search-form'>
-                <input
+                <input style={isFocus ? { backgroundColor: '#fff' } : { backgroundColor: '#424242' }}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
                     type="text"
                     placeholder="Искать здесь..."
                     className='search-form_input'
@@ -90,7 +96,12 @@ const SearchPanel = () => {
                     {isLoading ?
                         <div style={{ padding: '115px' }}><Spinner /></div> :
                         <>
-                            <div>Games {countGames}</div>
+                            <div className='search-form-result-title'>
+                                <span className='search-form-result-title-info'>
+                                    Games
+                                    <span className='search-form-result-title-info_count'>{countGames}</span>
+                                </span>
+                            </div>
                             {(inputValue && gamesList.slice(0, 7).map((game) =>
                                 <SearchResult
                                     key={game.id}

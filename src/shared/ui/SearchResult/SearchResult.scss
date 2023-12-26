@@ -2,9 +2,14 @@
     opacity: 90%;
     min-height: 250px;
     padding: 5px;
-    &-item-name{
-        width: 100%;
-            &_link{
+    &-item{
+        padding: 8px 0;
+        &-name{
             width: 100%;
+                &_link{
+                width: 100%;
+        }
     }
+    
+    
 }}

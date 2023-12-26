@@ -25,7 +25,7 @@ interface GameBasicInfo {
 
 interface GamesResponse {
     count: number
-    games: GamesListInfo[]
+    list: GamesListInfo[]
 }
 
 
@@ -85,7 +85,7 @@ const useGameServices = (): GameService => {
         )
         const resObj = {
             count: res.count,
-            games: res.results.map((game: GamesListInfo) => {
+            list: res.results.map((game: GamesListInfo) => {
                 return {
                     id: game.id,
                     name: game.name,
