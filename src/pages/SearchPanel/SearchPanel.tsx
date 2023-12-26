@@ -20,7 +20,16 @@ interface GamesResponse {
     list: GamesListInfo[];
 }
 
-const SearchPanel = () => {
+const searchFormInputStyle = {
+    backgroundColor: '#424242',
+};
+
+const focusedSearchFormInputStyle = {
+    backgroundColor: '#fff',
+};
+
+
+const SearchPanel = React.memo(() => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
@@ -76,7 +85,7 @@ const SearchPanel = () => {
     return (
         <div>
             <form className='search-form'>
-                <input style={isFocus ? { backgroundColor: '#fff' } : { backgroundColor: '#424242' }}
+                <input style={isFocus ? focusedSearchFormInputStyle : searchFormInputStyle}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     type="text"
@@ -117,6 +126,6 @@ const SearchPanel = () => {
         </div>
 
     )
-}
+})
 
-export default SearchPanel
+export default React.memo(SearchPanel)
