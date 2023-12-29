@@ -42,9 +42,10 @@ a {
     text-decoration: none;
     color: inherit;
     display: inline-block;
+    transition: .3s;
     &:hover {
         text-decoration: none;
-        color: inherit;
+        color: hsla(0,0%,100%,.4);
     }
 }
 

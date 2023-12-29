@@ -6,6 +6,8 @@ import { debounce } from 'lodash'
 import './SearchPanel.scss'
 import { SearchResult, Spinner } from 'shared/ui';
 import { API } from 'services'
+import { generatePath, Link } from 'react-router-dom';
+import { ROUTES } from 'shared/consts';
 
 
 interface GamesListInfo {
@@ -20,23 +22,23 @@ interface GamesResponse {
     list: GamesListInfo[];
 }
 
-const SearchPanel = () => {
+const SearchPanel = React.memo(() => {
 
     const [inputValue, setInputValue] = useState<string>('')
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isResultVisible, setIsResultVisible] = useState(false);
     const [countGames, setCountGames] = useState(0);
-    const [isFocus, setIsFocus] = useState(false)
 
     const { getGamesSearchInfo } = API.gameService()
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const formResultRef = useRef<HTMLDivElement>(null)
 
     const hideSearchBox = () => {
-        setInputValue('')
-        inputRef.current && (inputRef.current.value = '')
-        setGamesList([])
+        setInputValue('');
+        inputRef.current && (inputRef.current.value = '');
+        setGamesList([]);
         setIsResultVisible(false);
     };
 
@@ -47,16 +49,23 @@ const SearchPanel = () => {
     }, 500)
 
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => e.key === 'Escape' && hideSearchBox()
+        const handleClickOutside = () => {
+            if (formResultRef.current) {
+                hideSearchBox()
+            }
+        };
+        const handleKeyDown = (e: KeyboardEvent) => e.key === 'Escape' && handleClickOutside()
 
-        document.addEventListener('click', hideSearchBox)
+        document.addEventListener('click', handleClickOutside);
         document.addEventListener('keydown', handleKeyDown)
-        return (() => {
-            document.removeEventListener('click', hideSearchBox)
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
             document.removeEventListener('keydown', handleKeyDown)
-        })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        };
+    }, []);
+
+    console.log('render')
 
     useEffect(() => {
         if (inputValue) {
@@ -71,14 +80,10 @@ const SearchPanel = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputValue])
 
-    console.log('render')
-
     return (
         <div>
             <form className='search-form'>
-                <input style={isFocus ? { backgroundColor: '#fff' } : { backgroundColor: '#424242' }}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
+                <input
                     type="text"
                     placeholder="Искать здесь..."
                     className='search-form_input'
@@ -91,6 +96,8 @@ const SearchPanel = () => {
             </form>
             {isResultVisible &&
                 <div
+
+                    ref={formResultRef}
                     className='search-form-result'
                 >
                     {isLoading ?
@@ -107,9 +114,15 @@ const SearchPanel = () => {
                                     key={game.id}
                                     name={game.name}
                                     background_image={game.background_image}
+                                    parent_platforms={game.parent_platforms}
                                     id={game.id}
                                 />
                             ))}
+                            <Link className="header"
+                                to={(generatePath(ROUTES.SEARCHEDGAMES, { name: String(inputValue) }))}
+                            >
+                                All games..
+                            </Link>
                         </>
                     }
                 </div>}
@@ -117,6 +130,6 @@ const SearchPanel = () => {
         </div>
 
     )
-}
+})
 
-export default SearchPanel
+export default React.memo(SearchPanel)

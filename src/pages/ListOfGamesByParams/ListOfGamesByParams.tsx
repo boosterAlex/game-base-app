@@ -40,6 +40,7 @@ const ListOfGamesByParams = () => {
             next={getGamesListMore}
             hasMore={true}
             loader={<Spinner />}
+        // loader={<div>KJGKJKJHKH</div>}
         >
             {(gamesList.map((game) =>
                 <CardItem

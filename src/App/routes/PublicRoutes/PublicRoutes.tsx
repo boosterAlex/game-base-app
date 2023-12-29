@@ -18,6 +18,7 @@ function PublicRoutes() {
                 <Route path={ROUTES.MAIN} element={<Layout />}>
                     <Route path={ROUTES.MAIN} element={<ListOfGamesByParams />} />
                     <Route path={ROUTES.GAME} element={<AboutGame />} />
+                    <Route path={ROUTES.SEARCHEDGAMES} element={<ListOfGamesByParams />} />
                 </Route>
                 <Route path='*' element={<Page404 />} />
             </Routes>

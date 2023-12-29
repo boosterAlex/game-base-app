@@ -28,6 +28,10 @@ interface GamesResponse {
     list: GamesListInfo[]
 }
 
+interface ShortScreenshot {
+    image: string
+}
+
 
 type GameService = {
     getGamesList: (currentPage: number) => Promise<GamesListInfo[]>
@@ -41,17 +45,27 @@ const useGameServices = (): GameService => {
 
     const { request } = useApi();
 
-    const getGamesList = async (currentPage: number) => {
+    const getGamesList = async (currentPage: number, search?: string) => {
+
+        let url = `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`
+        if (search) {
+            url += `&search=${search}`
+        }
+
         const res = await request(
-            `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`
+            url
         );
 
         return res.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
                 name: game.name,
-                background_image: game.background_image,
-                short_screenshots: game.short_screenshots,
+                background_image: game.background_image.replace("/media/", "/media/resize/640/-/"),
+                short_screenshots: game.short_screenshots.map((item: ShortScreenshot) => (
+                    {
+                        image: item.image.replace("/media/", "/media/resize/640/-/")
+                    }
+                )),
                 ratings_count: game.ratings_count,
                 parent_platforms: game.parent_platforms,
                 released: game.released,
