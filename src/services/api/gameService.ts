@@ -34,7 +34,7 @@ interface ShortScreenshot {
 
 
 type GameService = {
-    getGamesList: (currentPage: number) => Promise<GamesListInfo[]>
+    getGamesList: (currentPage: number, search?: string) => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
     getGamesSearchInfo: (searchedString: string) => Promise<GamesResponse>
@@ -60,8 +60,8 @@ const useGameServices = (): GameService => {
             return {
                 id: game.id,
                 name: game.name,
-                background_image: game.background_image.replace("/media/", "/media/resize/640/-/"),
-                short_screenshots: game.short_screenshots.map((item: ShortScreenshot) => (
+                background_image: game.background_image && game.background_image.replace("/media/", "/media/resize/640/-/"),
+                short_screenshots: game.short_screenshots && game.short_screenshots.map((item: ShortScreenshot) => (
                     {
                         image: item.image.replace("/media/", "/media/resize/640/-/")
                     }

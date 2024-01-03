@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
 import { CardItem, Spinner } from "shared/ui"
+import { useParams } from 'react-router-dom'
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import './ListOfGamesByParams.scss'
+import './AllSearchedGame.scss'
 
 import { API } from 'services';
+
 interface GamesListInfo {
     id: number
     name: string
@@ -16,10 +18,11 @@ interface GamesListInfo {
     genres: []
 }
 
-const ListOfGamesByParams = () => {
+const AllSearchedGame = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
+    const { name } = useParams()
 
     const { getGamesList } = API.gameService();
 
@@ -28,12 +31,16 @@ const ListOfGamesByParams = () => {
     }
 
     useEffect(() => {
-        getGamesList(currentPage)
-            .then((games) =>
-                setGamesList((prevGamesList) => [...prevGamesList, ...games])
-            );
+        getGamesList(currentPage, name).then((games) =>
+            setGamesList((prevGamesList) => [...prevGamesList, ...games])
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage])
+
+    useEffect(() => {
+        setCurrentPage(1)
+        setGamesList([])
+    }, [name])
 
     return (
         <InfiniteScroll
@@ -42,7 +49,6 @@ const ListOfGamesByParams = () => {
             next={getGamesListMore}
             hasMore={true}
             loader={<Spinner />}
-        // loader={<div>KJGKJKJHKH</div>}
         >
             {(gamesList.map((game) =>
                 <CardItem
@@ -62,4 +68,4 @@ const ListOfGamesByParams = () => {
 
 }
 
-export default ListOfGamesByParams
+export default AllSearchedGame

@@ -119,7 +119,7 @@ const SearchPanel = React.memo(() => {
                                 />
                             ))}
                             <Link className="header"
-                                to={(generatePath(ROUTES.SEARCHEDGAMES, { name: String(inputValue) }))}
+                                to={(generatePath(ROUTES.SEARCHEDGAME, { name: String(inputValue) }))}
                             >
                                 All games..
                             </Link>
