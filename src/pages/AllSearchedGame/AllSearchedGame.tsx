@@ -24,6 +24,8 @@ const AllSearchedGame = () => {
     const [gamesList, setGamesList] = useState<GamesListInfo[]>([]);
     const { name } = useParams()
 
+    console.log(name)
+
     const { getGamesList } = API.gameService();
 
     const getGamesListMore = () => {

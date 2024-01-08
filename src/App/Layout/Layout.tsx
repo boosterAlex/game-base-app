@@ -1,25 +1,36 @@
 import { Link, Outlet } from 'react-router-dom'
-import { Suspense } from 'react'
 
 import { SearchPanel } from 'pages/SearchPanel'
-import { Spinner } from 'shared/ui'
+import { ROUTES } from 'shared/consts'
 import { Sidebar } from 'widgets'
 
 const Layout = () => {
     return (
         <>
-            <header>
-                <Link to="/">Home</Link>
+            <header style={{ display: 'flex', alignItems: 'center' }}>
+                <Link
+                    to={ROUTES.MAIN}
+                >
+                    Home
+                </Link>
                 <SearchPanel />
+                <Link style={{ paddingRight: '10px' }}
+                    to={ROUTES.SIGNIN}
+                >
+                    SIGN IN
+                </Link>
+                <Link
+                    to={ROUTES.SIGNUP}
+                >
+                    SIGN UP
+                </Link>
             </header>
             <div style={{ display: 'flex' }}>
                 <aside style={{ flexBasis: "15%" }}>
                     <Sidebar />
                 </aside>
-                <main style={{ flexBasis: "85%" }}>
-                    <Suspense fallback={<Spinner />}>
-                        <Outlet />
-                    </Suspense>
+                <main style={{ flexBasis: "85%", justifyContent: 'center', display: 'flex' }}>
+                    <Outlet />
                 </main>
             </div>
         </>

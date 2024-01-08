@@ -32,16 +32,26 @@ interface ShortScreenshot {
     image: string
 }
 
+export interface User {
+    email: string,
+    password: string,
+    nickname?: string,
+    phone_number?: string
+}
+
 
 type GameService = {
     getGamesList: (currentPage: number, search?: string) => Promise<GamesListInfo[]>
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
     getGamesSearchInfo: (searchedString: string) => Promise<GamesResponse>
+    auth: any
 }
 
 
 const useGameServices = (): GameService => {
+
+
 
     const { request } = useApi();
 
@@ -60,7 +70,7 @@ const useGameServices = (): GameService => {
             return {
                 id: game.id,
                 name: game.name,
-                background_image: game.background_image && game.background_image.replace("/media/", "/media/resize/640/-/"),
+                background_image: game.background_image ? game.background_image.replace("/media/", "/media/resize/640/-/") : require('../../../src/shared/assets/image/icon-image-not-found-free-vector.jpg'),
                 short_screenshots: game.short_screenshots && game.short_screenshots.map((item: ShortScreenshot) => (
                     {
                         image: item.image.replace("/media/", "/media/resize/640/-/")
@@ -112,7 +122,19 @@ const useGameServices = (): GameService => {
         return resObj
     }
 
-    return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo }
+    const auth = async (url: string, method: string, body: User) => {
+        const res = await request(
+            url,
+            method,
+            body,
+        )
+
+        return res
+    }
+
+    console.log(process.env.AUTH_API_PATH)
+
+    return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo, auth }
 }
 
 export default useGameServices

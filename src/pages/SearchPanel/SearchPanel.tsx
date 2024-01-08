@@ -65,8 +65,6 @@ const SearchPanel = React.memo(() => {
         };
     }, []);
 
-    console.log('render')
-
     useEffect(() => {
         if (inputValue) {
             setIsLoading(true);

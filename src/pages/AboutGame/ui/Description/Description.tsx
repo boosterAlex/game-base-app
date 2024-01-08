@@ -25,6 +25,7 @@ const Description = () => {
     }, [gameId])
 
     return (
+
         <>
             {game ? (<div>
                 <img src={game?.background_image} alt={game?.name} style={{ width: '400px' }} />
@@ -33,7 +34,6 @@ const Description = () => {
 
             </div>) : <Spinner />}
         </>
-
     )
 }
 

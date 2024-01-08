@@ -2,9 +2,10 @@ import { useState, useEffect } from "react"
 import { CardItem, Spinner } from "shared/ui"
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import { API } from 'services';
+
 import './ListOfGamesByParams.scss'
 
-import { API } from 'services';
 interface GamesListInfo {
     id: number
     name: string
@@ -42,7 +43,6 @@ const ListOfGamesByParams = () => {
             next={getGamesListMore}
             hasMore={true}
             loader={<Spinner />}
-        // loader={<div>KJGKJKJHKH</div>}
         >
             {(gamesList.map((game) =>
                 <CardItem
