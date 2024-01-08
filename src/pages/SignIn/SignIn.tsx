@@ -23,8 +23,6 @@ const SignIn = () => {
 
     const { auth } = API.gameService()
 
-    const AUTH_API_PATH = 'http://localhost/auth'
-
     const signIn = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
 
@@ -34,7 +32,7 @@ const SignIn = () => {
 
         }
 
-        auth(`${AUTH_API_PATH}/signIn`, 'POST', data)
+        auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, 'POST', data)
             .then((data: any) => setResponse(data))
 
         formState.email.value = ''

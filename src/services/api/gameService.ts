@@ -132,7 +132,7 @@ const useGameServices = (): GameService => {
         return res
     }
 
-    console.log(process.env.AUTH_API_PATH)
+    console.log(process.env)
 
     return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo, auth }
 }

@@ -34,8 +34,6 @@ const SighIn = () => {
 
     const { auth } = API.gameService()
 
-    const AUTH_API_PATH = 'http://localhost/auth'
-
     const signUp = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         registerUser()
@@ -50,7 +48,7 @@ const SighIn = () => {
             phone_number: formState.phone_number.value
         }
 
-        auth(`${AUTH_API_PATH}/signUp`, 'POST', data)
+        auth(`${process.env.REACT_APP_AUTH_API_PATH}/signUp`, 'POST', data)
             .then((data: any) => setResponse(data))
 
         formState.email.value = ''
