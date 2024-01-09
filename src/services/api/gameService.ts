@@ -132,8 +132,6 @@ const useGameServices = (): GameService => {
         return res
     }
 
-    console.log(process.env)
-
     return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo, auth }
 }
 

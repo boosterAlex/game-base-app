@@ -1,9 +1,15 @@
 import { useState } from 'react'
-
-
 import { API } from 'services'
 
 import './SignUp.scss'
+import { isRequired, min } from 'shared/validation/validation'
+
+enum FormFields {
+    email = 'email',
+    password = 'password',
+    nickname = 'nickname',
+    phone_number = 'phone_number'
+}
 
 const SighIn = () => {
 
@@ -11,32 +17,37 @@ const SighIn = () => {
         email: {
             value: '',
             message: '',
-            blured: false
+            blured: false,
+            validation: [isRequired, min(20)]
         },
         password: {
             value: '',
             message: '',
-            blured: false
+            blured: false,
+            validation: [isRequired, min]
         },
         nickname: {
             value: '',
             message: '',
-            blured: false
+            blured: false,
+            validation: [isRequired, min]
         },
         phone_number: {
             value: '',
             message: '',
-            blured: false
+            blured: false,
+            validation: [isRequired, min]
         },
     })
 
     const [response, setResponse] = useState({ message: '', error: '' })
+    const [validationMessage, setValidationMessage] = useState('')
 
     const { auth } = API.gameService()
 
     const signUp = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        registerUser()
+        validateFields()
     }
 
     const registerUser = () => {
@@ -56,11 +67,63 @@ const SighIn = () => {
         formState.nickname.value = ''
         formState.phone_number.value = ''
 
+        setValidationMessage('')
 
     }
 
-    console.log(response)
+    const validateFields = () => {
+        Object.entries(formState).forEach(([key, value]) => {
+            if (value.blured) {
+                value.validation.forEach((func: Function) => {
+                    let message = func(value.value)
+                    if (message) {
+                        setFormState((prev: any) => ({
+                            ...prev,
+                            [key]: {
+                                ...prev[key],
+                                message
+                            }
+                        }))
+                    } else {
+                        setFormState((prev: any) => ({
+                            ...prev,
+                            [key]: {
+                                ...prev[key],
+                                message: ''
+                            }
+                        }))
+                    }
+                })
+            }
 
+        })
+    }
+
+    const validateField = (field: FormFields, value: string) => {
+        formState[field].validation?.forEach((func: Function) => {
+            let message = func(value)
+
+            console.log(message)
+
+            if (message) {
+                setFormState((prev: any) => ({
+                    ...prev,
+                    [field]: {
+                        ...prev[field],
+                        message
+                    }
+                }))
+            } else {
+                setFormState((prev: any) => ({
+                    ...prev,
+                    [field]: {
+                        ...prev[field],
+                        message: ''
+                    }
+                }))
+            }
+        });
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -71,20 +134,27 @@ const SighIn = () => {
                         <input
                             type="email"
                             value={formState.email.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                email: {
-                                    ...prev.email,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                email: {
-                                    ...prev.email,
-                                    blured: true
-                                }
-                            }))}
+                            onChange={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    email: {
+                                        ...prev.email,
+                                        value: e.target.value
+                                    }
+                                }))
+                                validateField(FormFields.email, e.target.value)
+                            }
+                            }
+                            onBlur={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    email: {
+                                        ...prev.email,
+                                        blured: true
+                                    }
+                                }))
+                                validateField(FormFields.email, e.target.value)
+                            }}
                             required
                         />
                         <label htmlFor="">{formState.email.message || 'Email'}</label>
@@ -162,7 +232,8 @@ const SighIn = () => {
 
             <div>
                 <span>{(response.error) && <span>User already exists</span>}</span>
-                <span>{(response.message) && <span>User created successfully</span>}</span>
+                <span>{(response.message) && <span>User was created successfully</span>}</span>
+                <span>{validationMessage && validationMessage}</span>
             </div>
 
         </div>
