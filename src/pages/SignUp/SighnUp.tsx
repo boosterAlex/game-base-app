@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { API } from 'services'
 
 import './SignUp.scss'
-import { isRequired, min } from 'shared/validation/validation'
+import { isRequired, min, max, email } from 'shared/validation/validation'
 
 enum FormFields {
     email = 'email',
@@ -18,25 +18,25 @@ const SighIn = () => {
             value: '',
             message: '',
             blured: false,
-            validation: [isRequired, min(20)]
+            validation: [email],
         },
         password: {
             value: '',
             message: '',
             blured: false,
-            validation: [isRequired, min]
+            validation: [isRequired, min()],
         },
         nickname: {
             value: '',
             message: '',
             blured: false,
-            validation: [isRequired, min]
+            validation: [isRequired, min()],
         },
         phone_number: {
             value: '',
             message: '',
             blured: false,
-            validation: [isRequired, min]
+            validation: [isRequired, min()],
         },
     })
 
@@ -47,7 +47,10 @@ const SighIn = () => {
 
     const signUp = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        validateFields()
+        if (validateFields()) {
+            registerUser()
+        }
+
     }
 
     const registerUser = () => {
@@ -72,38 +75,31 @@ const SighIn = () => {
     }
 
     const validateFields = () => {
+        let isValid = true
         Object.entries(formState).forEach(([key, value]) => {
-            if (value.blured) {
-                value.validation.forEach((func: Function) => {
-                    let message = func(value.value)
-                    if (message) {
-                        setFormState((prev: any) => ({
-                            ...prev,
-                            [key]: {
-                                ...prev[key],
-                                message
-                            }
-                        }))
-                    } else {
-                        setFormState((prev: any) => ({
-                            ...prev,
-                            [key]: {
-                                ...prev[key],
-                                message: ''
-                            }
-                        }))
-                    }
-                })
-            }
+            let prevMessage = ''
+            value.validation.forEach((func: Function) => {
+                let message = func(value.value)
+                if (message && prevMessage === '') {
+                    prevMessage = message
+                    isValid = false
+                    setFormState((prev: any) => ({
+                        ...prev,
+                        [key]: {
+                            ...prev[key],
+                            message
+                        }
+                    }))
+                }
+            })
 
         })
+        return isValid
     }
 
     const validateField = (field: FormFields, value: string) => {
-        formState[field].validation?.forEach((func: Function) => {
+        for (const func of formState[field].validation) {
             let message = func(value)
-
-            console.log(message)
 
             if (message) {
                 setFormState((prev: any) => ({
@@ -113,7 +109,9 @@ const SighIn = () => {
                         message
                     }
                 }))
-            } else {
+                break
+            }
+            else {
                 setFormState((prev: any) => ({
                     ...prev,
                     [field]: {
@@ -122,7 +120,8 @@ const SighIn = () => {
                     }
                 }))
             }
-        });
+        }
+
     }
 
     return (
@@ -157,70 +156,92 @@ const SighIn = () => {
                             }}
                             required
                         />
-                        <label htmlFor="">{formState.email.message || 'Email'}</label>
+                        {formState.email.message ? <label htmlFor="" style={{ color: '#f24e4e' }}>{formState.email.message}</label> : <label htmlFor="">Email</label>}
                     </div>
                     <div className="inputbox">
                         <input
+                            name='password'
                             type="password"
                             value={formState.password.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                password: {
-                                    ...prev.password,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                password: {
-                                    ...prev.password,
-                                    blured: true
-                                }
-                            }))}
+                            onChange={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    password: {
+                                        ...prev.password,
+                                        value: e.target.value
+                                    }
+                                }))
+                                validateField(FormFields.password, e.target.value)
+                            }
+                            }
+                            onBlur={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    password: {
+                                        ...prev.password,
+                                        blured: true
+                                    }
+                                }))
+                                validateField(FormFields.password, e.target.value)
+                            }}
                             required />
-                        <label htmlFor="">Create a password</label>
+                        {formState.password.message ? <label htmlFor="password" style={{ color: '#f24e4e' }}>{formState.password.message}</label> : <label htmlFor="password">Create a password</label>}
                     </div>
                     <div className="inputbox">
                         <input
                             type="text"
                             value={formState.nickname.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                nickname: {
-                                    ...prev.nickname,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                nickname: {
-                                    ...prev.nickname,
-                                    blured: true
-                                }
-                            }))}
+                            onChange={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    nickname: {
+                                        ...prev.nickname,
+                                        value: e.target.value
+                                    }
+                                }))
+                                validateField(FormFields.nickname, e.target.value)
+                            }
+                            }
+                            onBlur={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    nickname: {
+                                        ...prev.nickname,
+                                        blured: true
+                                    }
+                                }))
+                                validateField(FormFields.nickname, e.target.value)
+                            }}
                             required />
-                        <label htmlFor="">Nickname</label>
+                        {formState.nickname.message ? <label htmlFor="" style={{ color: '#f24e4e' }}>{formState.nickname.message}</label> : <label htmlFor="">Nickname</label>}
                     </div>
                     <div className="inputbox">
                         <input
                             type="phone"
                             value={formState.phone_number.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                phone_number: {
-                                    ...prev.phone_number,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                phone_number: {
-                                    ...prev.phone_number,
-                                    blured: true
-                                }
-                            }))}
+                            onChange={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    phone_number: {
+                                        ...prev.phone_number,
+                                        value: e.target.value
+                                    }
+                                }))
+                                validateField(FormFields.phone_number, e.target.value)
+                            }
+                            }
+                            onBlur={(e) => {
+                                setFormState((prev) => ({
+                                    ...prev,
+                                    phone_number: {
+                                        ...prev.phone_number,
+                                        blured: true
+                                    }
+                                }))
+                                validateField(FormFields.phone_number, e.target.value)
+                            }}
                             required />
-                        <label htmlFor="">Phone number</label>
+                        {formState.phone_number.message ? <label htmlFor="" style={{ color: '#f24e4e' }}>{formState.phone_number.message}</label> : <label htmlFor="">Phone number</label>}
                     </div>
                     <button
                         className='signin-form-button'
