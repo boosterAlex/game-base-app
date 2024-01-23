@@ -45,7 +45,7 @@ type GameService = {
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
     getGamesSearchInfo: (searchedString: string) => Promise<GamesResponse>
-    auth: any
+    auth: (url: string, method: string, body: User) => Promise<string[]>
 }
 
 

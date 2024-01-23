@@ -19,7 +19,7 @@ const useApi = () => {
                     // throw new Error(
                     //     `Could not fetch ${url}, status: ${response.status}`
                     // )
-                    // console.log(`Could not fetch ${url}, status: ${response.status}`)
+                    console.log(`Could not fetch ${url}, status: ${response.status}`)
                 }
 
                 const data = await response.json();

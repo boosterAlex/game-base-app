@@ -4,18 +4,30 @@ import { ROUTES } from "shared/consts"
 
 import { API } from 'services'
 
+import { isRequired, min, email, password } from 'shared/validation/validation'
+import { useForm } from 'shared/hooks'
+
+enum FormFields {
+    email = 'email',
+    password = 'password',
+    nickname = 'nickname',
+    phone_number = 'phone_number'
+}
+
 const SignIn = () => {
 
-    const [formState, setFormState] = useState({
+    const { validateFields, formState, onChangeState } = useForm({
         email: {
             value: '',
-            message: '',
-            blured: false
+            errorMessage: '',
+            blured: false,
+            validation: [email]
         },
         password: {
             value: '',
-            message: '',
-            blured: false
+            errorMessage: '',
+            blured: false,
+            validation: [isRequired, min(8), password]
         }
     })
 
@@ -25,70 +37,49 @@ const SignIn = () => {
 
     const signIn = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        if (validateFields()) {
+            const data = {
+                email: formState.email.value,
+                password: formState.password.value,
 
-        const data = {
-            email: formState.email.value,
-            password: formState.password.value,
+            }
 
+            auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, 'POST', data)
+                .then((data: any) => setResponse(data))
+
+            formState.email.value = ''
+            formState.password.value = ''
         }
 
-        auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, 'POST', data)
-            .then((data: any) => setResponse(data))
-
-        formState.email.value = ''
-        formState.password.value = ''
     }
 
-    console.log(response)
+    const inputBox = (field: keyof typeof formState, type: string, label: string) => {
+        return (
+            <div className="inputbox">
+                <input
+                    type={type}
+                    value={formState[field].value}
+                    onChange={(e) => {
+                        onChangeState(FormFields[field], e.target.value)
+                    }
+                    }
+                    onBlur={(e) => {
+                        onChangeState(FormFields[field], e.target.value)
+                    }}
+                    required
+                />
+                {formState[field].errorMessage ? <label htmlFor="" style={{ color: '#f24e4e' }}>{formState[field].errorMessage}</label> : <label htmlFor="">{label}</label>}
+            </div>
+        )
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <section className='signin'>
                 <form className='signin-form'>
                     <h1 className='signin-form-label'>Log in</h1>
-                    <div className="inputbox">
-                        <input
-                            type="email"
-                            value={formState.email.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                email: {
-                                    ...prev.email,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                email: {
-                                    ...prev.email,
-                                    blured: true
-                                }
-                            }))}
-                            required
-                        />
-                        <label htmlFor="">{formState.email.message || 'Email'}</label>
-                    </div>
-                    <div className="inputbox">
-                        <input
-                            type="password"
-                            value={formState.password.value}
-                            onChange={(e) => setFormState((prev) => ({
-                                ...prev,
-                                password: {
-                                    ...prev.password,
-                                    value: e.target.value
-                                }
-                            }))}
-                            onBlur={() => setFormState((prev) => ({
-                                ...prev,
-                                password: {
-                                    ...prev.password,
-                                    blured: true
-                                }
-                            }))}
-                            required />
-                        <label htmlFor="">Create a password</label>
-                    </div>
+                    {inputBox('email', 'text', 'E-mail')}
+                    {inputBox('password', 'password', 'Create a password')}
                     <div className="forget">
                         <label htmlFor=""><input type="checkbox" />Remember Me</label>
                         <a href="#">Forget Password</a>
@@ -99,16 +90,17 @@ const SignIn = () => {
                     >Log in
                     </button>
                     <div className="register">
-                        <p>Don't have a account      <Link
-                            to={ROUTES.SIGNUP}
-                        >
-                            Register
-                        </Link></p>
+                        <p>Don't have a account
+                            <Link
+                                to={ROUTES.SIGNUP}
+                            >
+                                Register
+                            </Link></p>
                     </div>
                 </form>
             </section>
             <div>
-                <span>{(response.error === 'wrong email or password') ? <span>Wrong email or password</span> : <span>You have successfully logged in</span>}</span>
+                <span>{response.error || response.message}</span>
             </div>
         </div>
     )
