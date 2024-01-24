@@ -1,4 +1,4 @@
-import { useApi } from "shared/lib/hooks"
+import axios from "axios"
 
 interface GamesListInfo {
     id: number
@@ -33,7 +33,6 @@ interface ShortScreenshot {
 }
 
 export interface User {
-    email: string,
     password: string,
     nickname?: string,
     phone_number?: string
@@ -45,28 +44,28 @@ type GameService = {
     getGameById: (id: number | string | undefined) => Promise<GameBasicInfo>
     getScreenshotsById: (id: number | string | undefined) => Promise<Screenshots[]>
     getGamesSearchInfo: (searchedString: string) => Promise<GamesResponse>
-    auth: (url: string, method: string, body: User) => Promise<string[]>
+    auth: (url: string, body: User) => Promise<string[]>
 }
 
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE
+// axios.defaults.withCredentials = true
 
 const useGameServices = (): GameService => {
 
-
-
-    const { request } = useApi();
-
     const getGamesList = async (currentPage: number, search?: string) => {
 
-        let url = `${process.env.REACT_APP_API_BASE}games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`
+        let url = `games?key=${process.env.REACT_APP_API_KEY}&ordering=-relevance&page=${currentPage}&page_size=21`
         if (search) {
             url += `&search=${search}`
         }
 
-        const res = await request(
-            url
+        const res = await axios.get(
+            url,
+
         );
 
-        return res.results.map((game: GamesListInfo) => {
+
+        return res.data.results.map((game: GamesListInfo) => {
             return {
                 id: game.id,
                 name: game.name,
@@ -86,17 +85,17 @@ const useGameServices = (): GameService => {
     }
 
     const getGameById = async (id: number | string | undefined) => {
-        const res = await request(
-            `${process.env.REACT_APP_API_BASE}games/${id}?key=${process.env.REACT_APP_API_KEY}`
+        const res = await axios.get(
+            `games/${id}?key=${process.env.REACT_APP_API_KEY}`
         )
-        return res
+        return res.data
     }
 
     const getScreenshotsById = async (id: number | string | undefined) => {
-        const res = await request(
-            `${process.env.REACT_APP_API_BASE}games/${id}/screenshots?key=${process.env.REACT_APP_API_KEY}`
+        const res = await axios.get(
+            `games/${id}/screenshots?key=${process.env.REACT_APP_API_KEY}`
         )
-        return res.results.map((screenshots: Screenshots) => {
+        return res.data.results.map((screenshots: Screenshots) => {
             return {
                 id: screenshots.id,
                 image: screenshots.image
@@ -104,12 +103,12 @@ const useGameServices = (): GameService => {
         })
     }
     const getGamesSearchInfo = async (searchedString: string) => {
-        const res = await request(
-            `${process.env.REACT_APP_API_BASE}games?page_size=20&search=${searchedString}&page=1&key=${process.env.REACT_APP_API_KEY}`
+        const res = await axios.get(
+            `games?page_size=20&search=${searchedString}&page=1&key=${process.env.REACT_APP_API_KEY}`
         )
         const resObj = {
-            count: res.count,
-            list: res.results.map((game: GamesListInfo) => {
+            count: res.data.count,
+            list: res.data.results.map((game: GamesListInfo) => {
                 return {
                     id: game.id,
                     name: game.name,
@@ -122,14 +121,12 @@ const useGameServices = (): GameService => {
         return resObj
     }
 
-    const auth = async (url: string, method: string, body: User) => {
-        const res = await request(
+    const auth = async (url: string, body: User) => {
+        const res = await axios.post(
             url,
-            method,
-            body,
+            body
         )
-
-        return res
+        return res.data
     }
 
     return { getGamesList, getGameById, getScreenshotsById, getGamesSearchInfo, auth }

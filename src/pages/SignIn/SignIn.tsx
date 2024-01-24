@@ -37,7 +37,7 @@ const SignIn = () => {
                 password: formState.password.value,
             }
 
-            auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, 'POST', data)
+            auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, data)
                 .then((data: any) => setResponse(data))
 
             formState.email.value = ''

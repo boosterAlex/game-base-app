@@ -50,7 +50,7 @@ const SighIn = () => {
                 phone_number: formState.phone_number.value
             }
 
-            auth(`${process.env.REACT_APP_AUTH_API_PATH}/signUp`, 'POST', data)
+            auth(`${process.env.REACT_APP_AUTH_API_PATH}/signUp`, data)
                 .then((data: any) => setResponse(data))
 
             formState.email.value = ''
