@@ -1,18 +1,12 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { ROUTES } from "shared/consts"
 
+import { ROUTES } from "shared/consts"
 import { API } from 'services'
 
 import { isRequired, min, email, password } from 'shared/validation/validation'
-import { useForm } from 'shared/hooks'
-
-enum FormFields {
-    email = 'email',
-    password = 'password',
-    nickname = 'nickname',
-    phone_number = 'phone_number'
-}
+import { useForm } from 'shared/lib/hooks'
+import { InputField } from "shared/ui"
 
 const SignIn = () => {
 
@@ -41,7 +35,6 @@ const SignIn = () => {
             const data = {
                 email: formState.email.value,
                 password: formState.password.value,
-
             }
 
             auth(`${process.env.REACT_APP_AUTH_API_PATH}/signIn`, 'POST', data)
@@ -53,33 +46,29 @@ const SignIn = () => {
 
     }
 
-    const inputBox = (field: keyof typeof formState, type: string, label: string) => {
-        return (
-            <div className="inputbox">
-                <input
-                    type={type}
-                    value={formState[field].value}
-                    onChange={(e) => {
-                        onChangeState(FormFields[field], e.target.value)
-                    }
-                    }
-                    onBlur={(e) => {
-                        onChangeState(FormFields[field], e.target.value)
-                    }}
-                    required
-                />
-                {formState[field].errorMessage ? <label htmlFor="" style={{ color: '#f24e4e' }}>{formState[field].errorMessage}</label> : <label htmlFor="">{label}</label>}
-            </div>
-        )
-    }
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <section className='signin'>
                 <form className='signin-form'>
                     <h1 className='signin-form-label'>Log in</h1>
-                    {inputBox('email', 'text', 'E-mail')}
-                    {inputBox('password', 'password', 'Create a password')}
+                    <InputField
+                        type='text'
+                        value={formState.email.value}
+                        label="E-mail"
+                        errorMessage={formState.email.errorMessage}
+                        onChange={(e) => {
+                            onChangeState('email', e.target.value)
+                        }}
+                    />
+                    <InputField
+                        type='password'
+                        value={formState.password.value}
+                        label="Create a password"
+                        errorMessage={formState.password.errorMessage}
+                        onChange={(e) => {
+                            onChangeState('password', e.target.value)
+                        }}
+                    />
                     <div className="forget">
                         <label htmlFor=""><input type="checkbox" />Remember Me</label>
                         <a href="#">Forget Password</a>

@@ -1,4 +1,4 @@
-import { useApi } from "shared/hooks"
+import { useApi } from "shared/lib/hooks"
 
 interface GamesListInfo {
     id: number
