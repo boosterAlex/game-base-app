@@ -1,9 +1,12 @@
+import { ThemeProvider } from "providers";
 import { PublicRoutes } from "./routes";
 
 function App() {
   return (
     <div className="app">
-      <PublicRoutes />
+      <ThemeProvider>
+        <PublicRoutes />
+      </ThemeProvider>
     </div>
   );
 }
