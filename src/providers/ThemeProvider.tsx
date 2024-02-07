@@ -1,22 +1,25 @@
-import { Dispatch, SetStateAction, createContext, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 
 type TypeSetState<T> = Dispatch<SetStateAction<T>>
 
 interface Context {
-    isLight: boolean
-    setIsLight: TypeSetState<boolean>
+    themeColor: string
+    setThemeColor: TypeSetState<string>
 }
 
-export const ThemeContext = createContext<Context>({ isLight: false, setIsLight: () => { } })
+export const ThemeContext = createContext<Context>({ themeColor: 'black', setThemeColor: () => { } })
 
-const ThemeProvider = ({ children }: any) => {
+const ThemeProvider = ({ children }: { children: JSX.Element }) => {
 
-    const [isLight, setIsLight] = useState<boolean>(false)
+    const [themeColor, setThemeColor] = useState<string>(localStorage.getItem('themeColor') || 'dark')
 
-    const value = useMemo(() => ({ isLight, setIsLight }), [isLight])
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', themeColor)
+        localStorage.setItem('themeColor', themeColor)
+    }, [themeColor])
 
     return (
-        <ThemeContext.Provider value={value}>
+        <ThemeContext.Provider value={{ themeColor, setThemeColor }}>
             {children}
         </ThemeContext.Provider>
     )

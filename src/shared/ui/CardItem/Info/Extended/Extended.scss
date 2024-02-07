@@ -11,7 +11,7 @@
         justify-content: space-between;
         align-items: baseline;
         padding: 5px 0 ;
-        border-bottom: 1px solid hsla(0,0%,100%,.07);
+        border-bottom: 1px solid var(--game-card-button-bg-color);
         &_descr {
             text-align: right;
         }
@@ -36,7 +36,7 @@
 .show-more-button{
     position: relative;
     cursor: pointer;
-    background-color: hsla(0,0%,100%,.07);
+    background-color: var(--game-card-button-bg-color);
     border-radius: 8px;
     font-size: 14px;
     display: flex;

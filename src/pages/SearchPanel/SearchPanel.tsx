@@ -79,7 +79,7 @@ const SearchPanel = React.memo(() => {
     }, [inputValue])
 
     return (
-        <div>
+        <>
             <form className='search-form'>
                 <input
                     type="text"
@@ -125,7 +125,7 @@ const SearchPanel = React.memo(() => {
                     }
                 </div>}
 
-        </div>
+        </>
 
     )
 })

@@ -2,9 +2,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@700&family=Roboto:wght@400;700&family=Rubik:wght@400;500&display=swap');
 
 
-:root {
-    --bg-dark: #151515;
-    --bg-light: white;
+// :root {
+//     --bg-dark: #151515;
+//     --bg-light: white;
+// }
+
+html[data-theme='dark'] {
+    --background-color: #151515;
+    --text-color: #fff;
+
+    --game-card-bg-color: rgb(37, 37, 37);
+    --game-card-button-bg-color: hsla(0, 0%, 100%, 0.07);
+    --game-card-icon-bg-color: rgb(59, 59, 59);
+
+    --search-background-color: #424242;
+}
+html[data-theme='light'] {
+    --background-color: #b3d4a268;
+    --text-color: #313131;
+
+    --game-card-bg-color: rgb(137, 135, 135);
+    --game-card-button-bg-color: hsla(0, 0%, 0%, 0.11);
+    --game-card-icon-bg-color: rgb(107, 107, 107);
+
+    --search-background-color: #9a9999;
 }
 
 *{
@@ -14,24 +35,26 @@
     padding: 0;
     box-sizing: border-box;
 }
-// body {
-//     background-color: #151515;
-//     color: white;
-// }
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 45px;
+    transition: background-color 0.2s linear;
+}
 
-.dark {
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-dark);
-    color: white;}
+// .dark {
+//     margin: 0 auto;
+//     width: 100%;
+//     min-height: 100%;
+//     background-color: var(--bg-dark);
+//     color: white;}
 
-.light{
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-light);
-    color: black;}
+// .light{
+//     margin: 0 auto;
+//     width: 100%;
+//     height: 100%;
+//     background-color: var(--bg-light);
+//     color: black;}
 
 
 
