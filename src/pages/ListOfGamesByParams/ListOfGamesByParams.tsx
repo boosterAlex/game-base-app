@@ -54,7 +54,6 @@ const ListOfGamesByParams = () => {
                     parent_platforms={game.parent_platforms}
                     released={game.released}
                     genres={game.genres}
-
                 />)
             )}
         </InfiniteScroll>

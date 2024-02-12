@@ -7,7 +7,7 @@ interface Context {
     setThemeColor: TypeSetState<string>
 }
 
-export const ThemeContext = createContext<Context>({ themeColor: 'black', setThemeColor: () => { } })
+export const ThemeContext = createContext<Context>({ themeColor: 'dark', setThemeColor: () => { } })
 
 const ThemeProvider = ({ children }: { children: JSX.Element }) => {
 

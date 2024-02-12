@@ -1,15 +1,11 @@
 import { Link, Outlet } from 'react-router-dom'
 
-import { useTheme } from 'shared/lib/hooks'
-
 import { SearchPanel } from 'pages/SearchPanel'
 import { ROUTES } from 'shared/consts'
 import { Sidebar } from 'widgets'
+import { ToggleThemeCheckbox } from 'shared/ui'
 
 const Layout = () => {
-
-    const { setThemeColor } = useTheme()
-
     return (
         <>
             <header style={{ display: 'flex', alignItems: 'center' }}>
@@ -29,12 +25,13 @@ const Layout = () => {
                 >
                     SIGN UP
                 </Link>
-                <button
+                <ToggleThemeCheckbox />
+                {/* <button
                     onClick={() => setThemeColor('dark')}
                 >Dark</button>
                 <button
                     onClick={() => setThemeColor('light')}
-                >Light</button>
+                >Light</button> */}
             </header>
             <div style={{ display: 'flex' }}>
                 <aside style={{ flexBasis: "15%" }}>

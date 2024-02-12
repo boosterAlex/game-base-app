@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { API } from 'services'
 
 import './SignUp.scss'
@@ -35,9 +34,6 @@ const SighIn = () => {
         },
     })
 
-    const [response, setResponse] = useState({ message: '', error: '' })
-    const [validationMessage, setValidationMessage] = useState('')
-
     const { auth } = API.gameService()
 
     const signUp = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,14 +47,11 @@ const SighIn = () => {
             }
 
             auth(`${process.env.REACT_APP_AUTH_API_PATH}/signUp`, data)
-                .then((data: any) => setResponse(data))
 
             formState.email.value = ''
             formState.password.value = ''
             formState.nickname.value = ''
             formState.phone_number.value = ''
-
-            setValidationMessage('')
         }
 
     }
@@ -110,13 +103,6 @@ const SighIn = () => {
                     >Register</button>
                 </form>
             </section>
-
-            <div>
-                <span>{(response.error) && <span>User already exists</span>}</span>
-                <span>{(response.message) && <span>User was created successfully</span>}</span>
-                <span>{validationMessage && validationMessage}</span>
-            </div>
-
         </div>
     )
 }

@@ -25,7 +25,7 @@ const SignIn = () => {
         }
     })
 
-    const [response, setResponse] = useState({ message: '', error: '' })
+    const [response, setResponse] = useState({ message: null, error: null })
 
     const { auth } = API.gameService()
 
@@ -89,7 +89,8 @@ const SignIn = () => {
                 </form>
             </section>
             <div>
-                <span>{response.error || response.message}</span>
+                {response.error && <span>{response.error}</span>}
+                {response.message && <span>{response.message}</span>}
             </div>
         </div>
     )
