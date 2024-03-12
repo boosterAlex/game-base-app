@@ -46,6 +46,7 @@ const ListOfGamesByParams = () => {
         >
             {(gamesList.map((game) =>
                 <CardItem
+                    key={game.id}
                     id={game.id}
                     background_image={game.background_image}
                     name={game.name}

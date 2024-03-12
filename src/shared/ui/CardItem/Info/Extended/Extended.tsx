@@ -19,8 +19,26 @@ const Extended = ({ released, genres }: Props) => {
                     <div className='about-game-list_descr'>
                         {genres && genres.map((genr: any, index: number) =>
                             (index !== genres.length - 1) ?
-                                <span><a className='about-game-list_link' href={`/games/${genr.slug}`}>{genr.name}</a>, </span> :
-                                <span><a className='about-game-list_link' href={`/games/${genr.slug}`}>{genr.name}</a></span>
+                                <span
+                                    key={genr.id}>
+                                    <a
+                                        key={genr.id}
+                                        className='about-game-list_link'
+                                        href={`/games/${genr.slug}`}
+                                    >
+                                        {genr.name}
+                                    </a>,
+                                </span> :
+                                <span
+                                    key={genr.id}>
+                                    <a
+                                        key={genr.id}
+                                        className='about-game-list_link'
+                                        href={`/games/${genr.slug}`}
+                                    >
+                                        {genr.name}
+                                    </a>
+                                </span>
                         )}
                     </div>
                 </li>

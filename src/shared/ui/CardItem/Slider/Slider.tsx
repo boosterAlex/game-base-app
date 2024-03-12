@@ -34,6 +34,7 @@ const Slider = ({ background_image, short_screenshots }: Props) => {
                 <div className="slider__dots-row">
                     {screenshotsList.map((image: Screenshots, index: number) => (
                         <div
+                            key={index}
                             className="slider__dots-item"
                             onMouseEnter={() =>
                                 handleMouseEnter(image.image, index)} >

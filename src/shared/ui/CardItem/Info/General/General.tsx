@@ -17,7 +17,12 @@ const General = ({ id, name, ratings_count, parent_platforms }: Props) => {
         <>
             <div className="about-game-platforms">
                 {parent_platforms && parent_platforms.map((plat: any) =>
-                    <div className={`about-game-platforms_icon ${plat.platform.slug}`}></div>)}
+                    <div
+                        key={plat.platform.id}
+                        className={`about-game-platforms_icon ${plat.platform.slug}`}
+                    >
+                    </div>
+                )}
             </div>
             <div className="header">
                 <Link className="header"

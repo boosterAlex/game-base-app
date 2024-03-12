@@ -26,12 +26,6 @@ const Layout = () => {
                     SIGN UP
                 </Link>
                 <ToggleThemeCheckbox />
-                {/* <button
-                    onClick={() => setThemeColor('dark')}
-                >Dark</button>
-                <button
-                    onClick={() => setThemeColor('light')}
-                >Light</button> */}
             </header>
             <div style={{ display: 'flex' }}>
                 <aside style={{ flexBasis: "15%" }}>
